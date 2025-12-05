@@ -29,6 +29,7 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
             color: var(--primary-text);
+            /* 動態流光背景 */
             background: linear-gradient(125deg, #e0c3fc 0%, #8ec5fc 40%, #fbc2eb 70%, #a18cd1 100%);
             background-size: 300% 300%;
             animation: gradientBG 15s ease infinite;
@@ -44,7 +45,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- 飄落元素 --- */
+        /* --- 飄落元素容器 --- */
         #falling-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1; overflow: hidden;
@@ -80,12 +81,6 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- UI Elements --- */
-        .section-header-image {
-            width: 100%; height: 160px; object-fit: cover; border-radius: 20px;
-            margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.5);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); backdrop-filter: blur(5px);
-        }
-
         .section-header-styled {
             text-align: center; padding: 25px 20px; margin-bottom: 25px;
             background: rgba(255, 255, 255, 0.25); border-radius: 24px;
@@ -104,14 +99,6 @@
         }
         @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        .section-title {
-            font-family: 'Noto Serif TC', serif; margin: 10px 0 25px 0;
-            font-size: 1.5rem; color: #222; font-weight: 800; padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2); border-radius: 20px;
-            backdrop-filter: blur(10px); display: inline-block;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.4);
-        }
-
         .card {
             background: var(--glass-bg); backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px); border-radius: 24px;
@@ -119,10 +106,6 @@
             margin-bottom: 30px; overflow: hidden; transition: transform 0.3s;
         }
         .card:active { transform: scale(0.98); }
-        .card-img { 
-            width: 100%; height: 220px; object-fit: cover; display: block; 
-            background-color: rgba(255,255,255,0.5);
-        }
         .card-body { padding: 25px 30px; }
         .card-title {
             font-family: 'Noto Serif TC', serif; font-size: 1.35rem; font-weight: 800;
@@ -356,6 +339,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="transit-info"><i class="fas fa-car"></i> 車程 30 分鐘</div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">久留米 一番街 & 高良大社</div>
+                            <p class="card-desc">感受在地商店街氛圍，並前往高良大社俯瞰筑後平原美景。</p>
+                            <a href="googleusercontent.com/maps.google.com/52" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="transit-info"><i class="fas fa-car"></i> 車程 50 分鐘</div>
 
                 <div class="timeline-item">
@@ -404,6 +398,17 @@
                             <div class="card-title">由布院溫泉</div>
                             <p class="card-desc">漫步湯之坪街道，欣賞金鱗湖美景。</p>
                             <a href="https://www.google.com/maps/search/?api=1&query=由布院溫泉" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="transit-info"><i class="fas fa-car"></i> 車程 1 小時 40 分</div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">皿倉山纜車 (新日本三大夜景)</div>
+                            <p class="card-desc">搭乘纜車上山，將北九州繁華燈火盡收眼底。<br><span style="color:#d65a73; font-size:0.9rem;">*請注意末班纜車時間</span></p>
+                            <a href="usercontent.com/maps.google.com/53" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
                         </div>
                     </div>
                 </div>
