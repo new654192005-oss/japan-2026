@@ -10,14 +10,13 @@
     <style>
         :root {
             /* iOS Glass Theme Colors */
-            --glass-bg: rgba(255, 255, 255, 0.65); /* 卡片半透明白 */
-            --glass-border: rgba(255, 255, 255, 0.6); /* 亮邊框 */
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); /* 深邃陰影 */
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             --primary-text: #2c3e50;
             --accent-pink: #D65A73;
-            --sakura-pink: #ffb7c5; /* 櫻花粉 */
             --starlux-gold: #CFA972;
-            --btn-glass: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            --btn-glass: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
         }
 
         * {
@@ -30,14 +29,13 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
             color: var(--primary-text);
-            /* 動態流光背景 (保留玻璃感基底) */
             background: linear-gradient(125deg, #e0c3fc 0%, #8ec5fc 40%, #fbc2eb 70%, #a18cd1 100%);
             background-size: 300% 300%;
             animation: gradientBG 15s ease infinite;
             min-height: 100vh;
             padding-bottom: 120px;
             overflow-x: hidden;
-            position: relative; /* For falling container */
+            position: relative;
         }
 
         @keyframes gradientBG {
@@ -46,89 +44,74 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- 新增：飄落元素容器 (雪花與櫻花) --- */
+        /* --- 飄落元素 --- */
         #falling-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* 不阻擋點擊 */
-            z-index: 1; /* 在背景之上，內容之下 */
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; overflow: hidden;
         }
-
-        .falling-item {
-            position: absolute;
-            top: -50px;
-            animation: fall linear infinite;
-        }
-
-        /* 雪花樣式 */
-        .snowflake {
-            color: rgba(255, 255, 255, 0.9);
-            filter: drop-shadow(0 0 2px rgba(255,255,255,0.6));
-        }
-        /* 櫻花樣式 (使用葉子圖示模擬花瓣) */
-        .sakura {
-            color: rgba(255, 183, 197, 0.95); /* 櫻花粉 */
-            filter: drop-shadow(0 0 2px rgba(255, 183, 197, 0.6));
-        }
-
+        .falling-item { position: absolute; top: -50px; animation: fall linear infinite; }
+        .snowflake { color: rgba(255, 255, 255, 0.9); filter: drop-shadow(0 0 2px rgba(255,255,255,0.6)); }
+        .sakura { color: rgba(255, 183, 197, 0.95); filter: drop-shadow(0 0 2px rgba(255, 183, 197, 0.6)); }
         @keyframes fall {
             0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 0.9; }
+            10% { opacity: 1; } 90% { opacity: 0.9; }
             100% { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; }
         }
 
-        /* --- Glass Header --- */
+        /* --- Header --- */
         header {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 30px 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 999;
+            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border);
+            padding: 30px 20px; text-align: center; position: sticky; top: 0; z-index: 999;
             box-shadow: var(--glass-shadow);
         }
-
         header h1 {
-            font-family: 'Noto Serif TC', serif; 
-            font-size: 1.8rem; font-weight: 900; color: #333;
+            font-family: 'Noto Serif TC', serif; font-size: 1.8rem; font-weight: 900; color: #333;
             text-shadow: 0 2px 10px rgba(255,255,255,0.5); margin-bottom: 5px;
         }
-
-        header p {
-            font-size: 0.9rem; color: #555; font-weight: 700; letter-spacing: 2px;
-        }
+        header p { font-size: 0.9rem; color: #555; font-weight: 700; letter-spacing: 2px; }
 
         /* --- Container --- */
         .main-container {
-            padding: 25px 20px; max-width: 600px; margin: 0 auto;
-            position: relative; z-index: 10; /* 確保內容在飄落元素之上 */
+            padding: 25px 20px; max-width: 600px; margin: 0 auto; position: relative; z-index: 10;
         }
-
-        .tab-content {
-            display: none; animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
+        .tab-content { display: none; animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .tab-content.active { display: block; }
-        
-        @keyframes slideUp { 
-            from { opacity: 0; transform: translateY(30px); } 
-            to { opacity: 1; transform: translateY(0); } 
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- UI Elements --- */
+        .section-header-image {
+            width: 100%; height: 160px; object-fit: cover; border-radius: 20px;
+            margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); backdrop-filter: blur(5px);
         }
 
-        /* --- Glass Section Title --- */
+        .section-header-styled {
+            text-align: center; padding: 25px 20px; margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.25); border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px); display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .section-header-icon {
+            font-size: 2.2rem; color: var(--accent-pink); margin-bottom: 10px;
+            filter: drop-shadow(0 2px 5px rgba(214, 90, 115, 0.3));
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        .section-header-text {
+            font-family: 'Noto Serif TC', serif; font-size: 1.5rem; font-weight: 800;
+            color: #2c3e50; letter-spacing: 1px;
+        }
+        @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
         .section-title {
-            font-family: 'Noto Serif TC', serif;
-            margin: 20px 0; font-size: 1.5rem; color: #222; font-weight: 800; 
-            padding: 10px 20px; background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px; backdrop-filter: blur(10px); display: inline-block;
+            font-family: 'Noto Serif TC', serif; margin: 10px 0 25px 0;
+            font-size: 1.5rem; color: #222; font-weight: 800; padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2); border-radius: 20px;
+            backdrop-filter: blur(10px); display: inline-block;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.4);
         }
 
-        /* --- Ultimate Glass Card --- */
         .card {
             background: var(--glass-bg); backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px); border-radius: 24px;
@@ -139,19 +122,21 @@
         .card-img { 
             width: 100%; height: 220px; object-fit: cover; display: block; 
             background-color: rgba(255,255,255,0.5);
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
-        .card-body { padding: 25px; }
+        .card-body { padding: 25px 30px; }
         .card-title {
             font-family: 'Noto Serif TC', serif; font-size: 1.35rem; font-weight: 800;
-            color: #1a1a1a; margin-bottom: 10px;
+            color: #1a1a1a; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+        }
+        .card-title::before {
+            content: ''; display: inline-block; width: 6px; height: 20px;
+            background: var(--accent-pink); border-radius: 3px;
         }
         .card-desc {
-            font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 20px; 
+            font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 15px; 
             text-align: justify; font-weight: 500;
         }
 
-        /* --- Glass Button (Navigation) --- */
         .btn-map {
             display: flex; justify-content: center; align-items: center;
             background: var(--btn-glass); border: 1px solid rgba(255,255,255,0.8);
@@ -163,115 +148,43 @@
         .btn-map:active { background: rgba(255,255,255,0.9); transform: scale(0.97); }
         .btn-map i { margin-right: 8px; }
 
-        /* --- Starlux Dark Glass Card --- */
-        .starlux-card {
-            background: rgba(20, 20, 20, 0.75); border: 1px solid rgba(207, 169, 114, 0.3); color: #fff;
-        }
+        /* Starlux */
+        .starlux-card { background: rgba(20, 20, 20, 0.75); border: 1px solid rgba(207, 169, 114, 0.3); color: #fff; }
         .starlux-card .card-title { color: var(--starlux-gold); font-family: sans-serif; }
+        .starlux-card .card-title::before { display: none; }
         .starlux-card .card-desc { color: #ddd; font-weight: 300; }
-        
-        .flight-row {
-            display: flex; justify-content: space-between; align-items: center;
-            margin: 30px 0; position: relative;
-        }
-        .flight-code {
-            font-size: 2.2rem; font-weight: 800; color: var(--starlux-gold);
-            text-shadow: 0 0 15px rgba(207, 169, 114, 0.4);
-        }
-        .flight-path {
-            flex-grow: 1; height: 2px; 
-            background: linear-gradient(90deg, transparent, rgba(207, 169, 114, 0.8), transparent);
-            margin: 0 25px; position: relative;
-        }
-        .plane-wrapper {
-            position: absolute; top: -14px; left: 0;
-            animation: fly-right 4s ease-in-out infinite;
-        }
-        .plane-icon {
-            color: var(--starlux-gold); font-size: 1.6rem;
-            filter: drop-shadow(0 0 8px rgba(207, 169, 114, 0.8));
-            transform: rotate(90deg); display: block;
-        }
-        @keyframes fly-right {
-            0% { left: 0%; opacity: 0; } 10% { opacity: 1; }
-            90% { opacity: 1; } 100% { left: 100%; opacity: 0; }
-        }
+        .flight-row { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; position: relative; }
+        .flight-code { font-size: 2.2rem; font-weight: 800; color: var(--starlux-gold); text-shadow: 0 0 15px rgba(207, 169, 114, 0.4); }
+        .flight-path { flex-grow: 1; height: 2px; background: linear-gradient(90deg, transparent, rgba(207, 169, 114, 0.8), transparent); margin: 0 25px; position: relative; }
+        .plane-wrapper { position: absolute; top: -14px; left: 0; animation: fly-right 4s ease-in-out infinite; }
+        .plane-icon { font-size: 1.8rem; filter: drop-shadow(0 0 8px rgba(207, 169, 114, 0.8)); display: block; line-height: 1; }
+        @keyframes fly-right { 0% { left: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
 
-        /* --- Timeline Glass --- */
+        /* Timeline */
         .timeline { position: relative; padding-left: 35px; }
-        .timeline-item { position: relative; margin-bottom: 40px; }
+        .timeline-item { position: relative; margin-bottom: 30px; }
         .timeline-item::before {
-            content: ''; position: absolute; left: -42px; top: 20px;
-            width: 14px; height: 14px; background: #fff; border: 4px solid var(--accent-pink);
-            border-radius: 50%; z-index: 2; box-shadow: 0 0 10px rgba(214, 90, 115, 0.4);
+            content: ''; position: absolute; left: -42px; top: 20px; width: 14px; height: 14px; background: #fff; border: 4px solid var(--accent-pink); border-radius: 50%; z-index: 2; box-shadow: 0 0 10px rgba(214, 90, 115, 0.4);
         }
-        .timeline-item:not(:last-child)::after {
-            content: ''; position: absolute; left: -36px; top: 35px; bottom: -50px;
-            width: 2px; background: rgba(255,255,255,0.5); z-index: 1;
-        }
-        
-        .transit-info {
-            display: inline-block; background: rgba(255,255,255,0.5); 
-            color: #333; padding: 8px 16px; border-radius: 20px; 
-            font-size: 0.85rem; font-weight: 600; margin: -15px 0 25px 0;
-            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4);
-        }
+        .timeline-item:not(:last-child)::after { content: ''; position: absolute; left: -36px; top: 35px; bottom: -40px; width: 2px; background: rgba(255,255,255,0.5); z-index: 1; }
+        .transit-info { display: inline-block; background: rgba(255,255,255,0.5); color: #333; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin: -10px 0 20px 0; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4); }
+        .tabelog-badge { display: inline-flex; align-items: center; background: rgba(255, 244, 230, 0.8); color: #fa8514; padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; margin-bottom: 12px; border: 1px solid rgba(250, 133, 20, 0.3); }
 
-        .tabelog-badge {
-            display: inline-flex; align-items: center; background: rgba(255, 244, 230, 0.8);
-            color: #fa8514; padding: 5px 12px; border-radius: 8px; 
-            font-weight: 800; font-size: 0.95rem; margin-bottom: 12px; border: 1px solid rgba(250, 133, 20, 0.3);
-        }
-
-        /* --- Floating Glass Dock (Bottom Nav) --- */
+        /* Bottom Nav */
         .bottom-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 500px; height: 70px;
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px); border-radius: 35px;
-            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            display: flex; justify-content: space-evenly; align-items: center; z-index: 1000;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; height: 70px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 15px 35px rgba(0,0,0,0.2); display: flex; justify-content: space-evenly; align-items: center; z-index: 1000;
         }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 0.7rem; color: #555; cursor: pointer;
-            width: 50px; height: 50px; border-radius: 50%;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .nav-item.active {
-            background: #fff; color: var(--accent-pink);
-            transform: translateY(-15px) scale(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: #555; cursor: pointer; width: 50px; height: 50px; border-radius: 50%; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .nav-item.active { background: #fff; color: var(--accent-pink); transform: translateY(-15px) scale(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
 
-        /* --- Glass Forms --- */
+        /* Forms */
         .form-group { margin-bottom: 15px; }
-        .form-input {
-            width: 100%; padding: 16px; border: 1px solid rgba(255,255,255,0.6); 
-            border-radius: 16px; font-size: 1rem; background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(10px); color: #000; outline: none; transition: background 0.3s;
-        }
-        .form-input::placeholder { color: #666; }
+        .form-input { width: 100%; padding: 16px; border: 1px solid rgba(255,255,255,0.6); border-radius: 16px; font-size: 1rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); color: #000; outline: none; transition: background 0.3s; }
         .form-input:focus { background: rgba(255,255,255,0.6); }
-
-        .btn-action {
-            width: 100%; padding: 16px; background: #333; color: white;
-            border: none; border-radius: 16px; font-size: 1.1rem; font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .list-item {
-            background: rgba(255,255,255,0.5); padding: 15px; margin-bottom: 12px;
-            border-radius: 16px; border: 1px solid rgba(255,255,255,0.4);
-            display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .total-display {
-            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
-            color: #fff; padding: 30px; border-radius: 24px; text-align: center; margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(255, 154, 158, 0.4); text-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        .btn-action { width: 100%; padding: 16px; background: #333; color: white; border: none; border-radius: 16px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .list-item { background: rgba(255,255,255,0.5); padding: 15px; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(5px); }
+        .total-display { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); color: #fff; padding: 30px; border-radius: 24px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(255, 154, 158, 0.4); text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -279,6 +192,9 @@
     <div id="falling-container"></div>
 
     <header>
+        <div style="font-size: 3rem; color: #333; margin-bottom: 10px;">
+            <i class="fas fa-torii-gate"></i>
+        </div>
         <h1>九州冬日之旅</h1>
         <p>2026.01.05 - 01.10</p>
     </header>
@@ -286,7 +202,10 @@
     <div class="main-container">
         
         <div id="flight" class="tab-content active">
-            <h2 class="section-title">航班資訊</h2>
+            <div class="section-header-styled">
+                <i class="fas fa-plane-departure section-header-icon"></i>
+                <div class="section-header-text">航班資訊</div>
+            </div>
             
             <div class="card starlux-card">
                 <div class="card-body">
@@ -299,7 +218,7 @@
                         </div>
                         <div class="flight-path">
                             <div class="plane-wrapper">
-                                <i class="fas fa-plane plane-icon"></i>
+                                <span class="plane-icon">✈️</span>
                             </div>
                         </div>
                         <div style="text-align:right;">
@@ -325,7 +244,7 @@
                         </div>
                         <div class="flight-path">
                              <div class="plane-wrapper">
-                                <i class="fas fa-plane plane-icon"></i>
+                                <span class="plane-icon">✈️</span>
                             </div>
                         </div>
                         <div style="text-align:right;">
@@ -342,9 +261,12 @@
         </div>
 
         <div id="hotel" class="tab-content">
-            <h2 class="section-title">住宿資訊</h2>
+            <div class="section-header-styled">
+                <i class="fas fa-bed section-header-icon"></i>
+                <div class="section-header-text">住宿資訊</div>
+            </div>
+
             <div class="card">
-                <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(White+Crystal)" class="card-img" alt="Hotel">
                 <div class="card-body">
                     <div class="card-title">White Crystal</div>
                     <p class="card-desc"><i class="fas fa-map-marker-alt"></i> 福岡縣 / 熊本縣</p>
@@ -357,12 +279,14 @@
         </div>
 
         <div id="day1" class="tab-content">
-            <h2 class="section-title">Day 1 | 熊本城與名物</h2>
+            <div class="section-header-styled">
+                <i class="fas fa-chess-rook section-header-icon"></i>
+                <div class="section-header-text">Day 1 | 熊本</div>
+            </div>
             
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(熊本城)" class="card-img" alt="熊本城">
                         <div class="card-body">
                             <div class="card-title">熊本城 & 稻荷神社</div>
                             <p class="card-desc">日本三大名城之一，黑色城堡威風凜凜。</p>
@@ -385,7 +309,6 @@
 
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(勝烈亭)" class="card-img" alt="勝烈亭">
                         <div class="card-body">
                             <div class="card-title">勝烈亭 新市街本店</div>
                             <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.78</div>
@@ -407,7 +330,11 @@
         </div>
 
         <div id="day2" class="tab-content">
-            <h2 class="section-title">Day 2 | 自駕與購物</h2>
+            <div class="section-header-styled">
+                <i class="fas fa-car section-header-icon"></i>
+                <div class="section-header-text">Day 2 | 自駕</div>
+            </div>
+
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="card">
@@ -422,7 +349,6 @@
 
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(鳥栖Outlet)" class="card-img" alt="Outlet">
                         <div class="card-body">
                             <div class="card-title">鳥栖 PREMIUM OUTLETS</div>
                             <p class="card-desc">九州最大 Outlet，歐美日系品牌齊全。</p>
@@ -434,7 +360,6 @@
 
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(LaLaport鋼彈)" class="card-img" alt="Gundam">
                         <div class="card-body">
                             <div class="card-title">LaLaport 福岡</div>
                             <p class="card-desc">必看 1:1 實體大鋼彈。</p>
@@ -446,7 +371,11 @@
         </div>
 
         <div id="day3" class="tab-content">
-            <h2 class="section-title">Day 3 | 太宰府與由布院</h2>
+            <div class="section-header-styled">
+                <i class="fas fa-torii-gate section-header-icon"></i>
+                <div class="section-header-text">Day 3 | 太宰府</div>
+            </div>
+
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="card">
@@ -460,7 +389,6 @@
                 </div>
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(太宰府天滿宮)" class="card-img" alt="太宰府">
                         <div class="card-body">
                             <div class="card-title">太宰府天滿宮</div>
                             <p class="card-desc">參拜學問之神，必吃梅枝餅。</p>
@@ -472,7 +400,6 @@
 
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(由布院溫泉)" class="card-img" alt="由布院">
                         <div class="card-body">
                             <div class="card-title">由布院溫泉</div>
                             <p class="card-desc">漫步湯之坪街道，欣賞金鱗湖美景。</p>
@@ -484,7 +411,11 @@
         </div>
 
         <div id="day4" class="tab-content">
-            <h2 class="section-title">Day 4 | 博多天神散策</h2>
+            <div class="section-header-styled">
+                <i class="fas fa-city section-header-icon"></i>
+                <div class="section-header-text">Day 4 | 博多</div>
+            </div>
+
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="card">
@@ -499,7 +430,6 @@
                 
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(ShinShin拉麵)" class="card-img" alt="ShinShin">
                         <div class="card-body">
                             <div class="card-title">午餐：博多純情拉麵 Shin-Shin</div>
                             <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.58</div>
@@ -521,7 +451,6 @@
 
                 <div class="timeline-item">
                     <div class="card">
-                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(牛腸鍋)" class="card-img" alt="牛腸鍋">
                         <div class="card-body">
                             <div class="card-title">晚餐：博多名物 牛腸鍋</div>
                             <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.53</div>
@@ -534,7 +463,11 @@
         </div>
 
         <div id="day5" class="tab-content">
-            <h2 class="section-title">Day 5 | 採買與返程</h2>
+            <div class="section-header-styled">
+                <i class="fas fa-shopping-bag section-header-icon"></i>
+                <div class="section-header-text">Day 5 | 採買</div>
+            </div>
+
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="card">
@@ -547,7 +480,6 @@
                 </div>
                 <div class="timeline-item">
                     <div class="card">
-                         <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(Ricoland)" class="card-img" alt="Ricoland">
                         <div class="card-body">
                             <div class="card-title">Ricoland 福岡機場店</div>
                             <p class="card-desc">機車部品免稅採購聖地。</p>
@@ -555,11 +487,13 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="timeline-item">
-                    <div class="card starlux-card">
+                    <div class="card">
                         <div class="card-body">
                             <div class="card-title">前往福岡機場 (FUK)</div>
-                            <p class="card-desc">準備搭機：Starlux JX841 (19:10)</p>
+                            <p class="card-desc">準備搭乘星宇航空 JX841 (19:10) 返回溫暖的家。<br>請記得提早辦理登機與領取免稅品。</p>
+                            <a href="maps.google.com/36" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
                         </div>
                     </div>
                 </div>
@@ -567,7 +501,10 @@
         </div>
 
         <div id="expense" class="tab-content">
-             <h2 class="section-title">旅行記帳本</h2>
+             <div class="section-header-styled">
+                <i class="fas fa-wallet section-header-icon"></i>
+                <div class="section-header-text">記帳本</div>
+             </div>
              
              <div class="total-display">
                  <p style="font-size:0.9rem; margin-bottom:5px;">總支出 (約台幣)</p>
@@ -593,16 +530,29 @@
         </div>
 
         <div id="checklist" class="tab-content">
-            <h2 class="section-title">行前準備清單</h2>
-            
+            <div class="section-header-styled">
+                <i class="fas fa-clipboard-check section-header-icon"></i>
+                <div class="section-header-text">行前準備</div>
+            </div>
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                 <input type="text" id="new-check-item" class="form-input" placeholder="新增待辦..." style="flex:1;">
                 <button class="btn-action" style="width:auto; padding:0 25px; background:var(--primary-text);" onclick="addChecklistItem()">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
-
             <div id="checklist-container"></div>
+
+            <div class="section-header-styled" style="margin-top: 40px;">
+                <i class="fas fa-shopping-cart section-header-icon"></i>
+                <div class="section-header-text">購買清單</div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" id="new-shop-item" class="form-input" placeholder="新增購買項目..." style="flex:1;">
+                <button class="btn-action" style="width:auto; padding:0 25px; background:var(--primary-text);" onclick="addShopItem()">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <div id="shopping-list-container"></div>
         </div>
 
     </div>
@@ -619,29 +569,28 @@
     </nav>
 
     <script>
-        // --- Snow & Sakura Animation ---
+        // --- 1. 背景特效 (雪花與櫻花) ---
         function createFallingEffect() {
             const container = document.getElementById('falling-container');
             const count = 35; 
             for (let i = 0; i < count; i++) {
                 const item = document.createElement('i');
                 item.classList.add('falling-item', 'fas');
-                // 隨機產生雪花或櫻花(葉子模擬)
                 if (Math.random() > 0.5) {
                     item.classList.add('fa-snowflake', 'snowflake');
                     item.style.fontSize = (Math.random() * 10 + 8) + 'px';
                 } else {
-                    item.classList.add('fa-leaf', 'sakura'); // 使用葉子圖示模擬花瓣
+                    item.classList.add('fa-leaf', 'sakura'); 
                     item.style.fontSize = (Math.random() * 14 + 10) + 'px';
                 }
                 item.style.left = Math.random() * 100 + '%';
                 item.style.animationDuration = (Math.random() * 5 + 8) + 's';
-                item.style.animationDelay = (Math.random() * -15) + 's'; // 負延遲讓動畫一開始就布滿畫面
+                item.style.animationDelay = (Math.random() * -15) + 's'; 
                 container.appendChild(item);
             }
         }
 
-        // --- Tabs ---
+        // --- 2. 分頁切換 ---
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
@@ -650,15 +599,18 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- Expense ---
-        let expenses = [];
+        // --- 3. 記帳功能 (含自動儲存) ---
+        const EXPENSE_KEY = 'travel_expenses_2026_save'; 
+        let expenses = JSON.parse(localStorage.getItem(EXPENSE_KEY)) || [];
         let currentRate = 0.22;
         const rateInput = document.getElementById('exchange-rate');
 
-        rateInput.addEventListener('change', function() {
-            currentRate = parseFloat(this.value) || 0.22;
-            renderExpenseList();
-        });
+        if(rateInput){
+            rateInput.addEventListener('change', function() {
+                currentRate = parseFloat(this.value) || 0.22;
+                renderExpenseList();
+            });
+        }
 
         function addExpense() {
             const nameInput = document.getElementById('item-name');
@@ -667,13 +619,26 @@
             const jpy = parseFloat(amountInput.value);
             if(name && jpy > 0) {
                 expenses.unshift({ name, jpy });
-                renderExpenseList();
+                updateExpenseData(); 
                 nameInput.value = ''; amountInput.value = '';
             }
         }
 
+        function deleteExpense(idx) {
+            if(confirm('確定要刪除這筆支出嗎？')) {
+                expenses.splice(idx, 1);
+                updateExpenseData(); 
+            }
+        }
+
+        function updateExpenseData() {
+            localStorage.setItem(EXPENSE_KEY, JSON.stringify(expenses));
+            renderExpenseList();
+        }
+
         function renderExpenseList() {
             const list = document.getElementById('expense-list');
+            if(!list) return;
             list.innerHTML = '';
             let total = 0;
             expenses.forEach((item, idx) => {
@@ -683,25 +648,27 @@
                     <li class="list-item">
                         <div>
                             <div style="font-weight:bold;">${item.name}</div>
-                            <div style="font-size:0.85rem; color:#666;">¥${item.jpy}</div>
+                            <div style="font-size:0.85rem; color:#666;">¥${item.jpy.toLocaleString()}</div>
                         </div>
                         <div style="display:flex; align-items:center;">
-                            <div style="font-weight:bold; color:var(--accent-pink); margin-right:10px;">NT$${twd}</div>
-                            <i class="fas fa-trash-alt" style="color:#888; cursor:pointer;" onclick="expenses.splice(${idx},1);renderExpenseList()"></i>
+                            <div style="font-weight:bold; color:var(--accent-pink); margin-right:10px;">NT$${twd.toLocaleString()}</div>
+                            <i class="fas fa-trash-alt" style="color:#888; cursor:pointer;" onclick="deleteExpense(${idx})"></i>
                         </div>
                     </li>`;
             });
-            document.getElementById('total-twd').innerText = total.toLocaleString();
+            const totalDisplay = document.getElementById('total-twd');
+            if(totalDisplay) totalDisplay.innerText = total.toLocaleString();
         }
 
-        // --- Checklist ---
-        const STORAGE_KEY = 'travel_list_2026_final';
-        let checklistData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+        // --- 4. 行前準備清單 (含自動儲存) ---
+        const CHECKLIST_KEY = 'travel_list_2026_final';
+        let checklistData = JSON.parse(localStorage.getItem(CHECKLIST_KEY)) || [
             {text:"護照", checked:false}, {text:"日幣", checked:false}, {text:"駕照譯本", checked:false}
         ];
         
         function renderChecklist() {
             const con = document.getElementById('checklist-container');
+            if(!con) return;
             con.innerHTML = '';
             checklistData.forEach((item, idx) => {
                 con.innerHTML += `
@@ -713,7 +680,7 @@
                     <i class="fas fa-trash-alt" style="color:#aaa; cursor:pointer;" onclick="deleteCheckItem(${idx})"></i>
                 </div>`;
             });
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistData));
+            localStorage.setItem(CHECKLIST_KEY, JSON.stringify(checklistData));
         }
 
         function addChecklistItem() {
@@ -723,10 +690,42 @@
         function toggleCheck(idx) { checklistData[idx].checked = !checklistData[idx].checked; renderChecklist(); }
         function deleteCheckItem(idx) { if(confirm('刪除?')) { checklistData.splice(idx,1); renderChecklist(); }}
 
+        // --- 5. 購買清單 (新增功能) ---
+        const SHOPPING_KEY = 'travel_shopping_list_2026';
+        let shoppingData = JSON.parse(localStorage.getItem(SHOPPING_KEY)) || [];
+
+        function renderShoppingList() {
+            const con = document.getElementById('shopping-list-container');
+            if(!con) return;
+            con.innerHTML = '';
+            shoppingData.forEach((item, idx) => {
+                con.innerHTML += `
+                <div class="list-item" style="${item.checked?'opacity:0.6':''}">
+                    <div style="display:flex; align-items:center; flex:1; cursor:pointer;" onclick="toggleShopCheck(${idx})">
+                        <i class="fas ${item.checked?'fa-check-circle':'fa-circle'}" style="color:${item.checked?'var(--accent-pink)':'#bbb'}; font-size:1.2rem; margin-right:12px;"></i>
+                        <div style="font-weight:500; ${item.checked?'text-decoration:line-through; color:#777':''}">${item.text}</div>
+                    </div>
+                    <i class="fas fa-trash-alt" style="color:#aaa; cursor:pointer;" onclick="deleteShopItem(${idx})"></i>
+                </div>`;
+            });
+            localStorage.setItem(SHOPPING_KEY, JSON.stringify(shoppingData));
+        }
+
+        function addShopItem() {
+            const val = document.getElementById('new-shop-item').value.trim();
+            if(val) { shoppingData.push({text:val, checked:false}); document.getElementById('new-shop-item').value=''; renderShoppingList(); }
+        }
+        function toggleShopCheck(idx) { shoppingData[idx].checked = !shoppingData[idx].checked; renderShoppingList(); }
+        function deleteShopItem(idx) { if(confirm('刪除?')) { shoppingData.splice(idx,1); renderShoppingList(); }}
+
+        // --- 6. 初始化 ---
         document.addEventListener('DOMContentLoaded', () => {
-            createFallingEffect();
-            document.getElementById('exchange-rate').value = currentRate;
+            createFallingEffect(); 
+            const rateInput = document.getElementById('exchange-rate');
+            if(rateInput) rateInput.value = currentRate;
+            renderExpenseList();
             renderChecklist();
+            renderShoppingList(); // 初始化購買清單
         });
     </script>
 </body>
