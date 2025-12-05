@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 九州冬日之旅</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* iOS Glass Theme Colors */
+            --glass-bg: rgba(255, 255, 255, 0.65); /* 卡片半透明白 */
+            --glass-border: rgba(255, 255, 255, 0.6); /* 亮邊框 */
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); /* 深邃陰影 */
+            --primary-text: #2c3e50;
+            --accent-pink: #D65A73;
+            --sakura-pink: #ffb7c5; /* 櫻花粉 */
+            --starlux-gold: #CFA972;
+            --btn-glass: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--primary-text);
+            /* 動態流光背景 (保留玻璃感基底) */
+            background: linear-gradient(125deg, #e0c3fc 0%, #8ec5fc 40%, #fbc2eb 70%, #a18cd1 100%);
+            background-size: 300% 300%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            padding-bottom: 120px;
+            overflow-x: hidden;
+            position: relative; /* For falling container */
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 新增：飄落元素容器 (雪花與櫻花) --- */
+        #falling-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* 不阻擋點擊 */
+            z-index: 1; /* 在背景之上，內容之下 */
+            overflow: hidden;
+        }
+
+        .falling-item {
+            position: absolute;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+
+        /* 雪花樣式 */
+        .snowflake {
+            color: rgba(255, 255, 255, 0.9);
+            filter: drop-shadow(0 0 2px rgba(255,255,255,0.6));
+        }
+        /* 櫻花樣式 (使用葉子圖示模擬花瓣) */
+        .sakura {
+            color: rgba(255, 183, 197, 0.95); /* 櫻花粉 */
+            filter: drop-shadow(0 0 2px rgba(255, 183, 197, 0.6));
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Glass Header --- */
+        header {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 30px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: var(--glass-shadow);
+        }
+
+        header h1 {
+            font-family: 'Noto Serif TC', serif; 
+            font-size: 1.8rem; font-weight: 900; color: #333;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.5); margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 0.9rem; color: #555; font-weight: 700; letter-spacing: 2px;
+        }
+
+        /* --- Container --- */
+        .main-container {
+            padding: 25px 20px; max-width: 600px; margin: 0 auto;
+            position: relative; z-index: 10; /* 確保內容在飄落元素之上 */
+        }
+
+        .tab-content {
+            display: none; animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .tab-content.active { display: block; }
+        
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        /* --- Glass Section Title --- */
+        .section-title {
+            font-family: 'Noto Serif TC', serif;
+            margin: 20px 0; font-size: 1.5rem; color: #222; font-weight: 800; 
+            padding: 10px 20px; background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px; backdrop-filter: blur(10px); display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        /* --- Ultimate Glass Card --- */
+        .card {
+            background: var(--glass-bg); backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px); border-radius: 24px;
+            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+            margin-bottom: 30px; overflow: hidden; transition: transform 0.3s;
+        }
+        .card:active { transform: scale(0.98); }
+        .card-img { 
+            width: 100%; height: 220px; object-fit: cover; display: block; 
+            background-color: rgba(255,255,255,0.5);
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+        .card-body { padding: 25px; }
+        .card-title {
+            font-family: 'Noto Serif TC', serif; font-size: 1.35rem; font-weight: 800;
+            color: #1a1a1a; margin-bottom: 10px;
+        }
+        .card-desc {
+            font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 20px; 
+            text-align: justify; font-weight: 500;
+        }
+
+        /* --- Glass Button (Navigation) --- */
+        .btn-map {
+            display: flex; justify-content: center; align-items: center;
+            background: var(--btn-glass); border: 1px solid rgba(255,255,255,0.8);
+            color: var(--accent-pink); padding: 14px 0; border-radius: 50px;
+            text-decoration: none; font-size: 1rem; font-weight: 700;
+            margin-top: 15px; box-shadow: 0 5px 15px rgba(214, 90, 115, 0.15);
+            transition: all 0.2s; backdrop-filter: blur(5px);
+        }
+        .btn-map:active { background: rgba(255,255,255,0.9); transform: scale(0.97); }
+        .btn-map i { margin-right: 8px; }
+
+        /* --- Starlux Dark Glass Card --- */
+        .starlux-card {
+            background: rgba(20, 20, 20, 0.75); border: 1px solid rgba(207, 169, 114, 0.3); color: #fff;
+        }
+        .starlux-card .card-title { color: var(--starlux-gold); font-family: sans-serif; }
+        .starlux-card .card-desc { color: #ddd; font-weight: 300; }
+        
+        .flight-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin: 30px 0; position: relative;
+        }
+        .flight-code {
+            font-size: 2.2rem; font-weight: 800; color: var(--starlux-gold);
+            text-shadow: 0 0 15px rgba(207, 169, 114, 0.4);
+        }
+        .flight-path {
+            flex-grow: 1; height: 2px; 
+            background: linear-gradient(90deg, transparent, rgba(207, 169, 114, 0.8), transparent);
+            margin: 0 25px; position: relative;
+        }
+        .plane-wrapper {
+            position: absolute; top: -14px; left: 0;
+            animation: fly-right 4s ease-in-out infinite;
+        }
+        .plane-icon {
+            color: var(--starlux-gold); font-size: 1.6rem;
+            filter: drop-shadow(0 0 8px rgba(207, 169, 114, 0.8));
+            transform: rotate(90deg); display: block;
+        }
+        @keyframes fly-right {
+            0% { left: 0%; opacity: 0; } 10% { opacity: 1; }
+            90% { opacity: 1; } 100% { left: 100%; opacity: 0; }
+        }
+
+        /* --- Timeline Glass --- */
+        .timeline { position: relative; padding-left: 35px; }
+        .timeline-item { position: relative; margin-bottom: 40px; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -42px; top: 20px;
+            width: 14px; height: 14px; background: #fff; border: 4px solid var(--accent-pink);
+            border-radius: 50%; z-index: 2; box-shadow: 0 0 10px rgba(214, 90, 115, 0.4);
+        }
+        .timeline-item:not(:last-child)::after {
+            content: ''; position: absolute; left: -36px; top: 35px; bottom: -50px;
+            width: 2px; background: rgba(255,255,255,0.5); z-index: 1;
+        }
+        
+        .transit-info {
+            display: inline-block; background: rgba(255,255,255,0.5); 
+            color: #333; padding: 8px 16px; border-radius: 20px; 
+            font-size: 0.85rem; font-weight: 600; margin: -15px 0 25px 0;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .tabelog-badge {
+            display: inline-flex; align-items: center; background: rgba(255, 244, 230, 0.8);
+            color: #fa8514; padding: 5px 12px; border-radius: 8px; 
+            font-weight: 800; font-size: 0.95rem; margin-bottom: 12px; border: 1px solid rgba(250, 133, 20, 0.3);
+        }
+
+        /* --- Floating Glass Dock (Bottom Nav) --- */
+        .bottom-nav {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 500px; height: 70px;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px); border-radius: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            display: flex; justify-content: space-evenly; align-items: center; z-index: 1000;
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 0.7rem; color: #555; cursor: pointer;
+            width: 50px; height: 50px; border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .nav-item.active {
+            background: #fff; color: var(--accent-pink);
+            transform: translateY(-15px) scale(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
+
+        /* --- Glass Forms --- */
+        .form-group { margin-bottom: 15px; }
+        .form-input {
+            width: 100%; padding: 16px; border: 1px solid rgba(255,255,255,0.6); 
+            border-radius: 16px; font-size: 1rem; background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px); color: #000; outline: none; transition: background 0.3s;
+        }
+        .form-input::placeholder { color: #666; }
+        .form-input:focus { background: rgba(255,255,255,0.6); }
+
+        .btn-action {
+            width: 100%; padding: 16px; background: #333; color: white;
+            border: none; border-radius: 16px; font-size: 1.1rem; font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .list-item {
+            background: rgba(255,255,255,0.5); padding: 15px; margin-bottom: 12px;
+            border-radius: 16px; border: 1px solid rgba(255,255,255,0.4);
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .total-display {
+            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
+            color: #fff; padding: 30px; border-radius: 24px; text-align: center; margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(255, 154, 158, 0.4); text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="falling-container"></div>
+
+    <header>
+        <h1>九州冬日之旅</h1>
+        <p>2026.01.05 - 01.10</p>
+    </header>
+
+    <div class="main-container">
+        
+        <div id="flight" class="tab-content active">
+            <h2 class="section-title">航班資訊</h2>
+            
+            <div class="card starlux-card">
+                <div class="card-body">
+                    <div class="card-title">去程 Outbound</div>
+                    <div style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">01/05 (一)</div>
+                    <div class="flight-row">
+                        <div style="text-align:left;">
+                            <div class="flight-code">TPE</div>
+                            <div style="color:#fff;">07:30</div>
+                        </div>
+                        <div class="flight-path">
+                            <div class="plane-wrapper">
+                                <i class="fas fa-plane plane-icon"></i>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="flight-code">KMJ</div>
+                            <div style="color:#fff;">10:35</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">
+                        <strong>Starlux Airlines JX846</strong><br>
+                        桃園機場 T1 - 熊本機場
+                    </div>
+                </div>
+            </div>
+
+            <div class="card starlux-card">
+                <div class="card-body">
+                    <div class="card-title">返程 Inbound</div>
+                    <div style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">01/10 (六)</div>
+                    <div class="flight-row">
+                        <div style="text-align:left;">
+                            <div class="flight-code">FUK</div>
+                            <div style="color:#fff;">19:10</div>
+                        </div>
+                        <div class="flight-path">
+                             <div class="plane-wrapper">
+                                <i class="fas fa-plane plane-icon"></i>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="flight-code">TPE</div>
+                            <div style="color:#fff;">20:50</div>
+                        </div>
+                    </div>
+                    <div class="card-desc">
+                        <strong>Starlux Airlines JX841</strong><br>
+                        福岡機場 Int - 桃園機場 T1
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="hotel" class="tab-content">
+            <h2 class="section-title">住宿資訊</h2>
+            <div class="card">
+                <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(White+Crystal)" class="card-img" alt="Hotel">
+                <div class="card-body">
+                    <div class="card-title">White Crystal</div>
+                    <p class="card-desc"><i class="fas fa-map-marker-alt"></i> 福岡縣 / 熊本縣</p>
+                    <p class="card-desc">本次旅程的主要休憩之所。請記得確認每日的停車位置。</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=White+Crystal+Hotel+Kyushu" target="_blank" class="btn-map">
+                        <i class="fas fa-location-arrow"></i> Google Map 導航
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="day1" class="tab-content">
+            <h2 class="section-title">Day 1 | 熊本城與名物</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(熊本城)" class="card-img" alt="熊本城">
+                        <div class="card-body">
+                            <div class="card-title">熊本城 & 稻荷神社</div>
+                            <p class="card-desc">日本三大名城之一，黑色城堡威風凜凜。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=熊本城" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="transit-info"><i class="fas fa-walking"></i> 步行約 5 分鐘</div>
+                
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">櫻之馬場 城彩苑</div>
+                            <p class="card-desc">江戶風情商店街，推薦「海膽可樂餅」。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=櫻之馬場+城彩苑" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="transit-info"><i class="fas fa-train"></i> 市電約 15 分鐘</div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(勝烈亭)" class="card-img" alt="勝烈亭">
+                        <div class="card-body">
+                            <div class="card-title">勝烈亭 新市街本店</div>
+                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.78</div>
+                            <p class="card-desc">熊本第一名炸豬排，鹿兒島黑豚厚實多汁。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=勝烈亭+新市街本店" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="card" style="background:rgba(255,255,255,0.8);">
+                        <div class="card-body">
+                            <div class="card-title" style="color:#2c3e50;"><i class="fas fa-suitcase"></i> Check-in</div>
+                            <p class="card-desc">前往 White Crystal 辦理入住。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day2" class="tab-content">
+            <h2 class="section-title">Day 2 | 自駕與購物</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">租車取車 (Nissan)</div>
+                            <p class="card-desc">請備妥：護照、台灣駕照、日文譯本。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Nissan+Rent-a-car+Hakataeki+Minami" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="transit-info"><i class="fas fa-car"></i> 車程 40 分鐘</div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(鳥栖Outlet)" class="card-img" alt="Outlet">
+                        <div class="card-body">
+                            <div class="card-title">鳥栖 PREMIUM OUTLETS</div>
+                            <p class="card-desc">九州最大 Outlet，歐美日系品牌齊全。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=鳥栖PREMIUM+OUTLETS" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="transit-info"><i class="fas fa-car"></i> 車程 50 分鐘</div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(LaLaport鋼彈)" class="card-img" alt="Gundam">
+                        <div class="card-body">
+                            <div class="card-title">LaLaport 福岡</div>
+                            <p class="card-desc">必看 1:1 實體大鋼彈。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=LaLaport+福岡" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day3" class="tab-content">
+            <h2 class="section-title">Day 3 | 太宰府與由布院</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">一蘭拉麵 太宰府參道店</div>
+                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.08</div>
+                            <p class="card-desc">五角碗合格拉麵，麵條加長寓意長壽。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=一蘭拉麵+太宰府參道店" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(太宰府天滿宮)" class="card-img" alt="太宰府">
+                        <div class="card-body">
+                            <div class="card-title">太宰府天滿宮</div>
+                            <p class="card-desc">參拜學問之神，必吃梅枝餅。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=太宰府天滿宮" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="transit-info"><i class="fas fa-car"></i> 車程 1.5 小時</div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(由布院溫泉)" class="card-img" alt="由布院">
+                        <div class="card-body">
+                            <div class="card-title">由布院溫泉</div>
+                            <p class="card-desc">漫步湯之坪街道，欣賞金鱗湖美景。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=由布院溫泉" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day4" class="tab-content">
+            <h2 class="section-title">Day 4 | 博多天神散策</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">辦理還車</div>
+                            <p class="card-desc">前往 Nissan Rent-a-car 還車。</p>
+                             <a href="https://www.google.com/maps/search/?api=1&query=Nissan+Rent-a-car" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="transit-info"><i class="fas fa-subway"></i> 地鐵移動</div>
+                
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(ShinShin拉麵)" class="card-img" alt="ShinShin">
+                        <div class="card-body">
+                            <div class="card-title">午餐：博多純情拉麵 Shin-Shin</div>
+                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.58</div>
+                            <p class="card-desc">濃郁豚骨細麵，博多必吃。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=博多純情拉麵+Shin-Shin" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">天神地下街 & PARCO</div>
+                            <p class="card-desc">九州流行中心，好逛好買。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=天神地下街" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="card">
+                        <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(牛腸鍋)" class="card-img" alt="牛腸鍋">
+                        <div class="card-body">
+                            <div class="card-title">晚餐：博多名物 牛腸鍋</div>
+                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.53</div>
+                            <p class="card-desc">推薦名店「大山」或「前田屋」。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=博多牛腸鍋" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day5" class="tab-content">
+            <h2 class="section-title">Day 5 | 採買與返程</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">博多車站 AMU PLAZA</div>
+                            <p class="card-desc">最後伴手禮採買：努努雞、博多通饅頭。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=AMU+PLAZA+博多" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="card">
+                         <img src="https://placehold.co/800x400/e0e0e0/555555?text=請替換圖片+(Ricoland)" class="card-img" alt="Ricoland">
+                        <div class="card-body">
+                            <div class="card-title">Ricoland 福岡機場店</div>
+                            <p class="card-desc">機車部品免稅採購聖地。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Ricoland+Fukuoka+Airport" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="card starlux-card">
+                        <div class="card-body">
+                            <div class="card-title">前往福岡機場 (FUK)</div>
+                            <p class="card-desc">準備搭機：Starlux JX841 (19:10)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="expense" class="tab-content">
+             <h2 class="section-title">旅行記帳本</h2>
+             
+             <div class="total-display">
+                 <p style="font-size:0.9rem; margin-bottom:5px;">總支出 (約台幣)</p>
+                 <div style="font-size: 2.5rem; font-weight: 900;">NT$ <span id="total-twd">0</span></div>
+             </div>
+
+             <div class="card" style="padding: 20px;">
+                 <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+                    <label style="color:#555; font-weight:bold;">匯率:</label>
+                    <input type="number" id="exchange-rate" value="0.22" step="0.001" class="form-input" style="flex:1;">
+                 </div>
+
+                 <div class="form-group">
+                     <input type="text" id="item-name" class="form-input" placeholder="項目名稱 (如: 午餐)">
+                 </div>
+                 <div class="form-group">
+                     <input type="number" id="item-amount-jpy" class="form-input" placeholder="日幣金額">
+                 </div>
+                 <button class="btn-action" onclick="addExpense()">新增支出</button>
+             </div>
+
+             <ul id="expense-list" style="list-style:none;"></ul>
+        </div>
+
+        <div id="checklist" class="tab-content">
+            <h2 class="section-title">行前準備清單</h2>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" id="new-check-item" class="form-input" placeholder="新增待辦..." style="flex:1;">
+                <button class="btn-action" style="width:auto; padding:0 25px; background:var(--primary-text);" onclick="addChecklistItem()">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <div id="checklist-container"></div>
+        </div>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('day1', this)"><i class="fas fa-calendar-day"></i><span>D1</span></div>
+        <div class="nav-item" onclick="switchTab('day2', this)"><i class="fas fa-calendar-day"></i><span>D2</span></div>
+        <div class="nav-item" onclick="switchTab('day3', this)"><i class="fas fa-calendar-day"></i><span>D3</span></div>
+        <div class="nav-item" onclick="switchTab('day4', this)"><i class="fas fa-calendar-day"></i><span>D4</span></div>
+        <div class="nav-item" onclick="switchTab('day5', this)"><i class="fas fa-calendar-day"></i><span>D5</span></div>
+        <div class="nav-item" onclick="switchTab('expense', this)"><i class="fas fa-calculator"></i><span>記帳</span></div>
+        <div class="nav-item" onclick="switchTab('flight', this)"><i class="fas fa-plane"></i><span>航班</span></div>
+        <div class="nav-item" onclick="switchTab('checklist', this)"><i class="fas fa-check-square"></i><span>清單</span></div>
+    </nav>
+
+    <script>
+        // --- Snow & Sakura Animation ---
+        function createFallingEffect() {
+            const container = document.getElementById('falling-container');
+            const count = 35; 
+            for (let i = 0; i < count; i++) {
+                const item = document.createElement('i');
+                item.classList.add('falling-item', 'fas');
+                // 隨機產生雪花或櫻花(葉子模擬)
+                if (Math.random() > 0.5) {
+                    item.classList.add('fa-snowflake', 'snowflake');
+                    item.style.fontSize = (Math.random() * 10 + 8) + 'px';
+                } else {
+                    item.classList.add('fa-leaf', 'sakura'); // 使用葉子圖示模擬花瓣
+                    item.style.fontSize = (Math.random() * 14 + 10) + 'px';
+                }
+                item.style.left = Math.random() * 100 + '%';
+                item.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                item.style.animationDelay = (Math.random() * -15) + 's'; // 負延遲讓動畫一開始就布滿畫面
+                container.appendChild(item);
+            }
+        }
+
+        // --- Tabs ---
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Expense ---
+        let expenses = [];
+        let currentRate = 0.22;
+        const rateInput = document.getElementById('exchange-rate');
+
+        rateInput.addEventListener('change', function() {
+            currentRate = parseFloat(this.value) || 0.22;
+            renderExpenseList();
+        });
+
+        function addExpense() {
+            const nameInput = document.getElementById('item-name');
+            const amountInput = document.getElementById('item-amount-jpy');
+            const name = nameInput.value.trim();
+            const jpy = parseFloat(amountInput.value);
+            if(name && jpy > 0) {
+                expenses.unshift({ name, jpy });
+                renderExpenseList();
+                nameInput.value = ''; amountInput.value = '';
+            }
+        }
+
+        function renderExpenseList() {
+            const list = document.getElementById('expense-list');
+            list.innerHTML = '';
+            let total = 0;
+            expenses.forEach((item, idx) => {
+                let twd = Math.round(item.jpy * currentRate);
+                total += twd;
+                list.innerHTML += `
+                    <li class="list-item">
+                        <div>
+                            <div style="font-weight:bold;">${item.name}</div>
+                            <div style="font-size:0.85rem; color:#666;">¥${item.jpy}</div>
+                        </div>
+                        <div style="display:flex; align-items:center;">
+                            <div style="font-weight:bold; color:var(--accent-pink); margin-right:10px;">NT$${twd}</div>
+                            <i class="fas fa-trash-alt" style="color:#888; cursor:pointer;" onclick="expenses.splice(${idx},1);renderExpenseList()"></i>
+                        </div>
+                    </li>`;
+            });
+            document.getElementById('total-twd').innerText = total.toLocaleString();
+        }
+
+        // --- Checklist ---
+        const STORAGE_KEY = 'travel_list_2026_final';
+        let checklistData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+            {text:"護照", checked:false}, {text:"日幣", checked:false}, {text:"駕照譯本", checked:false}
+        ];
+        
+        function renderChecklist() {
+            const con = document.getElementById('checklist-container');
+            con.innerHTML = '';
+            checklistData.forEach((item, idx) => {
+                con.innerHTML += `
+                <div class="list-item" style="${item.checked?'opacity:0.6':''}">
+                    <div style="display:flex; align-items:center; flex:1; cursor:pointer;" onclick="toggleCheck(${idx})">
+                        <i class="fas ${item.checked?'fa-check-circle':'fa-circle'}" style="color:${item.checked?'var(--accent-pink)':'#bbb'}; font-size:1.2rem; margin-right:12px;"></i>
+                        <div style="font-weight:500; ${item.checked?'text-decoration:line-through; color:#777':''}">${item.text}</div>
+                    </div>
+                    <i class="fas fa-trash-alt" style="color:#aaa; cursor:pointer;" onclick="deleteCheckItem(${idx})"></i>
+                </div>`;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistData));
+        }
+
+        function addChecklistItem() {
+            const val = document.getElementById('new-check-item').value.trim();
+            if(val) { checklistData.push({text:val, checked:false}); document.getElementById('new-check-item').value=''; renderChecklist(); }
+        }
+        function toggleCheck(idx) { checklistData[idx].checked = !checklistData[idx].checked; renderChecklist(); }
+        function deleteCheckItem(idx) { if(confirm('刪除?')) { checklistData.splice(idx,1); renderChecklist(); }}
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createFallingEffect();
+            document.getElementById('exchange-rate').value = currentRate;
+            renderChecklist();
+        });
+    </script>
+</body>
+</html>
