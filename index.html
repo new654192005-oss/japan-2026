@@ -9,7 +9,6 @@
 
     <style>
         :root {
-            /* iOS Glass Theme Colors */
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-border: rgba(255, 255, 255, 0.6);
             --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
@@ -19,17 +18,11 @@
             --btn-glass: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
             color: var(--primary-text);
-            /* 動態流光背景 */
             background: linear-gradient(125deg, #e0c3fc 0%, #8ec5fc 40%, #fbc2eb 70%, #a18cd1 100%);
             background-size: 300% 300%;
             animation: gradientBG 15s ease infinite;
@@ -40,16 +33,11 @@
         }
 
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
         }
 
-        /* --- 飄落元素容器 --- */
-        #falling-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1; overflow: hidden;
-        }
+        /* Falling Effects */
+        #falling-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
         .falling-item { position: absolute; top: -50px; animation: fall linear infinite; }
         .snowflake { color: rgba(255, 255, 255, 0.9); filter: drop-shadow(0 0 2px rgba(255,255,255,0.6)); }
         .sakura { color: rgba(255, 183, 197, 0.95); filter: drop-shadow(0 0 2px rgba(255, 183, 197, 0.6)); }
@@ -59,115 +47,145 @@
             100% { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; }
         }
 
-        /* --- Header --- */
+        /* Header */
         header {
-            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border);
-            padding: 30px 20px; text-align: center; position: sticky; top: 0; z-index: 999;
-            box-shadow: var(--glass-shadow);
+            position: relative; padding: 60px 20px 40px 20px; text-align: center; overflow: hidden; z-index: 999;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(255,255,255,0.3);
         }
-        header h1 {
-            font-family: 'Noto Serif TC', serif; font-size: 1.8rem; font-weight: 900; color: #333;
-            text-shadow: 0 2px 10px rgba(255,255,255,0.5); margin-bottom: 5px;
+        header::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1624606733226-97e349ddbd7c?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover; background-position: center 30%; z-index: -2;
         }
-        header p { font-size: 0.9rem; color: #555; font-weight: 700; letter-spacing: 2px; }
+        header::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            z-index: -1; mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+        header h1 { font-family: 'Noto Serif TC', serif; font-size: 2rem; font-weight: 900; color: #222; text-shadow: 0 2px 15px rgba(255,255,255,0.9); margin-bottom: 5px; }
+        header p { font-size: 0.95rem; color: #333; font-weight: 700; letter-spacing: 3px; text-shadow: 0 1px 5px rgba(255,255,255,0.8); }
 
-        /* --- Container --- */
-        .main-container {
-            padding: 25px 20px; max-width: 600px; margin: 0 auto; position: relative; z-index: 10;
-        }
-        .tab-content { display: none; animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .main-container { padding: 25px 20px; max-width: 600px; margin: 0 auto; position: relative; z-index: 10; }
+        .tab-content { display: none; animation: slideUp 0.4s ease-out; }
         .tab-content.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- UI Elements --- */
+        /* UI Components */
         .section-header-styled {
-            text-align: center; padding: 25px 20px; margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.25); border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            backdrop-filter: blur(10px); display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            text-align: center; padding: 20px; margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.3); border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; align-items: center;
         }
-        .section-header-icon {
-            font-size: 2.2rem; color: var(--accent-pink); margin-bottom: 10px;
-            filter: drop-shadow(0 2px 5px rgba(214, 90, 115, 0.3));
-            animation: floatIcon 3s ease-in-out infinite;
-        }
-        .section-header-text {
-            font-family: 'Noto Serif TC', serif; font-size: 1.5rem; font-weight: 800;
-            color: #2c3e50; letter-spacing: 1px;
-        }
+        .section-header-icon { font-size: 2rem; color: var(--accent-pink); margin-bottom: 8px; animation: floatIcon 3s ease-in-out infinite; }
+        .section-header-text { font-family: 'Noto Serif TC'; font-size: 1.4rem; font-weight: 800; color: #2c3e50; }
         @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
         .card {
-            background: var(--glass-bg); backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px); border-radius: 24px;
-            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-            margin-bottom: 30px; overflow: hidden; transition: transform 0.3s;
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+            margin-bottom: 25px; overflow: hidden; position: relative;
         }
-        .card:active { transform: scale(0.98); }
-        .card-body { padding: 25px 30px; }
-        .card-title {
-            font-family: 'Noto Serif TC', serif; font-size: 1.35rem; font-weight: 800;
-            color: #1a1a1a; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
-        }
-        .card-title::before {
-            content: ''; display: inline-block; width: 6px; height: 20px;
-            background: var(--accent-pink); border-radius: 3px;
-        }
-        .card-desc {
-            font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 15px; 
-            text-align: justify; font-weight: 500;
-        }
+        .card-body { padding: 20px; }
+        .card-title { font-family: 'Noto Serif TC'; font-size: 1.2rem; font-weight: 800; color: #222; margin-bottom: 10px; display:flex; align-items:center; }
+        .card-desc { font-size: 0.95rem; color: #444; line-height: 1.6; white-space: pre-wrap; }
 
         .btn-map {
-            display: flex; justify-content: center; align-items: center;
+            display: inline-block; justify-content: center; align-items: center;
             background: var(--btn-glass); border: 1px solid rgba(255,255,255,0.8);
-            color: var(--accent-pink); padding: 14px 0; border-radius: 50px;
-            text-decoration: none; font-size: 1rem; font-weight: 700;
-            margin-top: 15px; box-shadow: 0 5px 15px rgba(214, 90, 115, 0.15);
-            transition: all 0.2s; backdrop-filter: blur(5px);
+            color: var(--accent-pink); padding: 8px 20px; border-radius: 50px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 700; margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer;
         }
-        .btn-map:active { background: rgba(255,255,255,0.9); transform: scale(0.97); }
-        .btn-map i { margin-right: 8px; }
 
-        /* Starlux */
-        .starlux-card { background: rgba(20, 20, 20, 0.75); border: 1px solid rgba(207, 169, 114, 0.3); color: #fff; }
-        .starlux-card .card-title { color: var(--starlux-gold); font-family: sans-serif; }
-        .starlux-card .card-title::before { display: none; }
-        .starlux-card .card-desc { color: #ddd; font-weight: 300; }
-        .flight-row { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; position: relative; }
-        .flight-code { font-size: 2.2rem; font-weight: 800; color: var(--starlux-gold); text-shadow: 0 0 15px rgba(207, 169, 114, 0.4); }
-        .flight-path { flex-grow: 1; height: 2px; background: linear-gradient(90deg, transparent, rgba(207, 169, 114, 0.8), transparent); margin: 0 25px; position: relative; }
-        .plane-wrapper { position: absolute; top: -14px; left: 0; animation: fly-right 4s ease-in-out infinite; }
-        .plane-icon { font-size: 1.8rem; filter: drop-shadow(0 0 8px rgba(207, 169, 114, 0.8)); display: block; line-height: 1; }
+        /* --- New Edit/Delete Buttons --- */
+        .card-actions {
+            position: absolute; top: 15px; right: 15px; display: flex; gap: 8px;
+        }
+        .btn-icon-action {
+            width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.6);
+            display: flex; align-items: center; justify-content: center;
+            color: #666; cursor: pointer; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.8);
+        }
+        .btn-icon-action:hover { background: #fff; color: var(--accent-pink); transform: scale(1.1); }
+        .btn-icon-action.delete:hover { color: #ff6b6b; }
+
+        .add-buttons-container { display: flex; gap: 10px; justify-content: center; margin-bottom: 40px; }
+        .btn-add-trip {
+            background: rgba(255,255,255,0.5); border: 1px solid #fff; padding: 10px 20px;
+            border-radius: 15px; color: #555; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; gap: 5px; transition: 0.2s;
+        }
+        .btn-add-trip:hover { background: #fff; color: var(--accent-pink); transform: translateY(-2px); }
+
+        /* Timeline & Transit */
+        .timeline { position: relative; padding-left: 30px; }
+        .timeline-item { position: relative; margin-bottom: 20px; }
+        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 20px; width: 12px; height: 12px; background: #fff; border: 3px solid var(--accent-pink); border-radius: 50%; z-index: 2; }
+        .timeline-item::after { content: ''; position: absolute; left: -31px; top: 35px; bottom: -40px; width: 2px; background: rgba(255,255,255,0.6); z-index: 1; }
+        
+        .transit-container { position: relative; margin-bottom: 20px; padding-left: 10px; display: flex; align-items: center; }
+        .transit-info { 
+            display: inline-flex; align-items: center; background: rgba(255,255,255,0.6); 
+            padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; color: #444; 
+            border: 1px solid rgba(255,255,255,0.5); flex: 1; max-width: fit-content;
+        }
+        .transit-icon { margin-right: 8px; color: var(--primary-text); }
+        
+        .transit-actions { display: flex; gap: 5px; margin-left: 10px; opacity: 0.6; }
+        .transit-actions i { cursor: pointer; padding: 5px; font-size: 0.9rem; }
+        .transit-actions i:hover { color: var(--accent-pink); opacity: 1; }
+
+        /* --- Modal (Pop-up) Styles --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
+            z-index: 2000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.show { display: flex; opacity: 1; }
+        .modal-glass {
+            background: rgba(255, 255, 255, 0.85); width: 90%; max-width: 400px;
+            padding: 25px; border-radius: 25px; border: 1px solid #fff;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2); transform: scale(0.9); transition: transform 0.3s;
+        }
+        .modal-overlay.show .modal-glass { transform: scale(1); }
+        .modal-title { font-size: 1.2rem; font-weight: 800; color: #333; margin-bottom: 20px; text-align: center; }
+        
+        .modal-input-group { margin-bottom: 15px; }
+        .modal-label { display: block; font-size: 0.9rem; font-weight: bold; color: #555; margin-bottom: 5px; }
+        .modal-input, .modal-select {
+            width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd;
+            font-size: 1rem; outline: none; background: #fff;
+        }
+        .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-modal-save { flex: 1; padding: 12px; background: var(--accent-pink); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .btn-modal-cancel { flex: 1; padding: 12px; background: #ddd; color: #555; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+
+        /* Other Styles */
+        .shopping-form { background: rgba(255,255,255,0.4); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.5); }
+        .shop-input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6); background: rgba(255,255,255,0.5); font-size: 0.95rem; outline: none; margin-bottom: 10px; }
+        .btn-action { width: 100%; padding: 14px; background: #333; color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 1rem; }
+        .list-item { background: rgba(255,255,255,0.6); padding: 15px; margin-bottom: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .shop-item { background: rgba(255,255,255,0.6); padding: 15px; margin-bottom: 10px; border-radius: 16px; display: flex; align-items: flex-start; justify-content: space-between; }
+        .shop-note { font-size: 0.85rem; color: #666; margin-top: 4px; }
+        .btn-link { color: var(--accent-pink); font-size: 1.2rem; margin-right: 10px;}
+        .shop-item.checked .shop-name { text-decoration: line-through; opacity: 0.5; }
+        .cover-card { background: rgba(255, 255, 255, 0.4); border-radius: 30px; padding: 40px 20px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); margin-top: 20px; }
+        .cover-icon { font-size: 4rem; color: var(--accent-pink); margin-bottom: 20px; animation: floatIcon 4s ease-in-out infinite; }
+        .btn-start { display: inline-block; width: 100%; padding: 18px; background: #333; color: white; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border: none; }
+        .starlux-card { background: rgba(30, 30, 30, 0.85); color: #fff; border: 1px solid #CFA972; }
+        .starlux-card .card-title { color: #CFA972; } .starlux-card .card-desc { color: #ccc; }
+        .flight-row { display: flex; justify-content: space-between; align-items: center; margin: 25px 0; position: relative; }
+        .flight-code { font-size: 2rem; font-weight: 800; color: #CFA972; }
+        .flight-path { flex: 1; height: 1px; background: rgba(207,169,114,0.6); margin: 0 20px; position: relative; }
+        .plane-wrapper { position: absolute; top: -14px; left: 0; animation: fly-right 4s linear infinite; }
+        .plane-icon { font-size: 1.5rem; line-height: 1; filter: drop-shadow(0 0 5px rgba(207,169,114,0.8)); }
         @keyframes fly-right { 0% { left: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
-
-        /* Timeline */
-        .timeline { position: relative; padding-left: 35px; }
-        .timeline-item { position: relative; margin-bottom: 30px; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -42px; top: 20px; width: 14px; height: 14px; background: #fff; border: 4px solid var(--accent-pink); border-radius: 50%; z-index: 2; box-shadow: 0 0 10px rgba(214, 90, 115, 0.4);
-        }
-        .timeline-item:not(:last-child)::after { content: ''; position: absolute; left: -36px; top: 35px; bottom: -40px; width: 2px; background: rgba(255,255,255,0.5); z-index: 1; }
-        .transit-info { display: inline-block; background: rgba(255,255,255,0.5); color: #333; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin: -10px 0 20px 0; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4); }
-        .tabelog-badge { display: inline-flex; align-items: center; background: rgba(255, 244, 230, 0.8); color: #fa8514; padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; margin-bottom: 12px; border: 1px solid rgba(250, 133, 20, 0.3); }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; height: 70px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 15px 35px rgba(0,0,0,0.2); display: flex; justify-content: space-evenly; align-items: center; z-index: 1000;
-        }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: #555; cursor: pointer; width: 50px; height: 50px; border-radius: 50%; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .nav-item.active { background: #fff; color: var(--accent-pink); transform: translateY(-15px) scale(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
-
-        /* Forms */
-        .form-group { margin-bottom: 15px; }
-        .form-input { width: 100%; padding: 16px; border: 1px solid rgba(255,255,255,0.6); border-radius: 16px; font-size: 1rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); color: #000; outline: none; transition: background 0.3s; }
-        .form-input:focus { background: rgba(255,255,255,0.6); }
-        .btn-action { width: 100%; padding: 16px; background: #333; color: white; border: none; border-radius: 16px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .list-item { background: rgba(255,255,255,0.5); padding: 15px; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(5px); }
-        .total-display { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); color: #fff; padding: 30px; border-radius: 24px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(255, 154, 158, 0.4); text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .bottom-nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 94%; max-width: 600px; height: 75px; background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; justify-content: space-between; align-items: center; padding: 0 10px; z-index: 1000; overflow-x: auto; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; color: #666; cursor: pointer; min-width: 50px; height: 55px; border-radius: 50%; flex-shrink: 0; transition: all 0.3s; }
+        .nav-item.active { background: #fff; color: var(--accent-pink); transform: translateY(-10px) scale(1.1); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+        .nav-item i { font-size: 1.2rem; margin-bottom: 3px; }
     </style>
 </head>
 <body>
@@ -175,562 +193,378 @@
     <div id="falling-container"></div>
 
     <header>
-        <div style="font-size: 3rem; color: #333; margin-bottom: 10px;">
+        <div style="font-size: 2.5rem; color: #333; margin-bottom: 10px; opacity: 0.8;">
             <i class="fas fa-torii-gate"></i>
         </div>
         <h1>九州冬日之旅</h1>
-        <p>2026.01.05 - 01.10</p>
+        <p>2026.01.05 - 01.09</p>
     </header>
 
     <div class="main-container">
         
-        <div id="flight" class="tab-content active">
-            <div class="section-header-styled">
-                <i class="fas fa-plane-departure section-header-icon"></i>
-                <div class="section-header-text">航班資訊</div>
+        <div id="cover" class="tab-content active">
+            <div class="cover-card">
+                <i class="fas fa-snowflake cover-icon"></i>
+                <div style="font-family:'Noto Serif TC'; font-size:1.8rem; font-weight:900; margin-bottom:10px;">九州冬日之旅</div>
+                <div style="font-size:1.1rem; color:#555; margin-bottom:30px;">2026.01.05 - 01.09</div>
+                <p style="color:#666; margin-bottom:30px;">小倉城的雪景、暖呼呼的溫泉<br>與博多美食之旅</p>
+                <button class="btn-start" onclick="startJourney()">開始旅程 <i class="fas fa-arrow-right"></i></button>
             </div>
-            
+        </div>
+
+        <div id="flight" class="tab-content">
+            <div class="section-header-styled"><i class="fas fa-plane-departure section-header-icon"></i><div class="section-header-text">航班資訊</div></div>
             <div class="card starlux-card">
                 <div class="card-body">
-                    <div class="card-title">去程 Outbound</div>
-                    <div style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">01/05 (一)</div>
+                    <div class="card-title">去程 Outbound</div><div style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">01/05 (一)</div>
                     <div class="flight-row">
-                        <div style="text-align:left;">
-                            <div class="flight-code">TPE</div>
-                            <div style="color:#fff;">07:30</div>
-                        </div>
-                        <div class="flight-path">
-                            <div class="plane-wrapper">
-                                <span class="plane-icon">✈️</span>
-                            </div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div class="flight-code">KMJ</div>
-                            <div style="color:#fff;">10:35</div>
-                        </div>
+                        <div><div class="flight-code">TPE</div><div style="color:#fff">07:30</div></div>
+                        <div class="flight-path"><div class="plane-wrapper"><span class="plane-icon">✈️</span></div></div>
+                        <div style="text-align:right"><div class="flight-code">KMJ</div><div style="color:#fff">10:35</div></div>
                     </div>
-                    <div class="card-desc">
-                        <strong>Starlux Airlines JX846</strong><br>
-                        桃園機場 T1 - 熊本機場
-                    </div>
+                    <div class="card-desc"><strong>Starlux JX846</strong><br>桃園 T1 - 熊本</div>
                 </div>
             </div>
-
             <div class="card starlux-card">
                 <div class="card-body">
-                    <div class="card-title">返程 Inbound</div>
-                    <div style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">01/10 (六)</div>
+                    <div class="card-title">返程 Inbound</div><div style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">01/09 (五)</div>
                     <div class="flight-row">
-                        <div style="text-align:left;">
-                            <div class="flight-code">FUK</div>
-                            <div style="color:#fff;">19:10</div>
-                        </div>
-                        <div class="flight-path">
-                             <div class="plane-wrapper">
-                                <span class="plane-icon">✈️</span>
-                            </div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div class="flight-code">TPE</div>
-                            <div style="color:#fff;">20:50</div>
-                        </div>
+                        <div><div class="flight-code">FUK</div><div style="color:#fff">19:10</div></div>
+                        <div class="flight-path"><div class="plane-wrapper"><span class="plane-icon">✈️</span></div></div>
+                        <div style="text-align:right"><div class="flight-code">TPE</div><div style="color:#fff">20:50</div></div>
                     </div>
-                    <div class="card-desc">
-                        <strong>Starlux Airlines JX841</strong><br>
-                        福岡機場 Int - 桃園機場 T1
-                    </div>
+                    <div class="card-desc"><strong>Starlux JX841</strong><br>福岡 Int - 桃園 T1</div>
                 </div>
             </div>
         </div>
 
         <div id="hotel" class="tab-content">
-            <div class="section-header-styled">
-                <i class="fas fa-bed section-header-icon"></i>
-                <div class="section-header-text">住宿資訊</div>
-            </div>
-
+            <div class="section-header-styled"><i class="fas fa-bed section-header-icon"></i><div class="section-header-text">住宿資訊</div></div>
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">White Crystal</div>
-                    <p class="card-desc"><i class="fas fa-map-marker-alt"></i> 福岡縣 / 熊本縣</p>
-                    <p class="card-desc">本次旅程的主要休憩之所。請記得確認每日的停車位置。</p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=White+Crystal+Hotel+Kyushu" target="_blank" class="btn-map">
-                        <i class="fas fa-location-arrow"></i> Google Map 導航
-                    </a>
+                    <p class="card-desc">福岡縣 / 熊本縣<br>本次旅程主要休憩處，請確認每日停車位置。</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=White+Crystal+Hotel+Kyushu" target="_blank" class="btn-map"><i class="fas fa-location-arrow"></i> Google Map</a>
                 </div>
             </div>
         </div>
 
-        <div id="day1" class="tab-content">
-            <div class="section-header-styled">
-                <i class="fas fa-chess-rook section-header-icon"></i>
-                <div class="section-header-text">Day 1 | 熊本</div>
-            </div>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">熊本城 & 稻荷神社</div>
-                            <p class="card-desc">日本三大名城之一，黑色城堡威風凜凜。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=熊本城" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
+        <div id="day1" class="tab-content"></div>
+        <div id="day2" class="tab-content"></div>
+        <div id="day3" class="tab-content"></div>
+        <div id="day4" class="tab-content"></div>
+        <div id="day5" class="tab-content"></div>
+
+        <div id="shopping" class="tab-content">
+            <div class="section-header-styled"><i class="fas fa-cart-plus section-header-icon"></i><div class="section-header-text">購買清單</div></div>
+            <div class="shopping-form">
+                <div class="shop-input-group"><input type="text" id="shop-name" class="shop-input" placeholder="商品名稱"></div>
+                <div class="shop-row">
+                    <div style="flex:1"><input type="text" id="shop-note" class="shop-input" placeholder="備註"></div>
+                    <div style="flex:1"><input type="text" id="shop-link" class="shop-input" placeholder="Google Map 連結"></div>
                 </div>
-                <div class="transit-info"><i class="fas fa-walking"></i> 步行約 5 分鐘</div>
-                
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">櫻之馬場 城彩苑</div>
-                            <p class="card-desc">江戶風情商店街，推薦「海膽可樂餅」。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=櫻之馬場+城彩苑" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="transit-info"><i class="fas fa-train"></i> 市電約 15 分鐘</div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">勝烈亭 新市街本店</div>
-                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.78</div>
-                            <p class="card-desc">熊本第一名炸豬排，鹿兒島黑豚厚實多汁。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=勝烈亭+新市街本店" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="card" style="background:rgba(255,255,255,0.8);">
-                        <div class="card-body">
-                            <div class="card-title" style="color:#2c3e50;"><i class="fas fa-suitcase"></i> Check-in</div>
-                            <p class="card-desc">前往 White Crystal 辦理入住。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="day2" class="tab-content">
-            <div class="section-header-styled">
-                <i class="fas fa-car section-header-icon"></i>
-                <div class="section-header-text">Day 2 | 自駕</div>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">租車取車 (Nissan)</div>
-                            <p class="card-desc">請備妥：護照、台灣駕照、日文譯本。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Nissan+Rent-a-car+Hakataeki+Minami" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="transit-info"><i class="fas fa-car"></i> 車程 40 分鐘</div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">鳥栖 PREMIUM OUTLETS</div>
-                            <p class="card-desc">九州最大 Outlet，歐美日系品牌齊全。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=鳥栖PREMIUM+OUTLETS" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="transit-info"><i class="fas fa-car"></i> 車程 30 分鐘</div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">久留米 一番街 & 高良大社</div>
-                            <p class="card-desc">感受在地商店街氛圍，並前往高良大社俯瞰筑後平原美景。</p>
-                            <a href="googleusercontent.com/maps.google.com/52" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="transit-info"><i class="fas fa-car"></i> 車程 50 分鐘</div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">LaLaport 福岡</div>
-                            <p class="card-desc">必看 1:1 實體大鋼彈。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=LaLaport+福岡" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="day3" class="tab-content">
-            <div class="section-header-styled">
-                <i class="fas fa-torii-gate section-header-icon"></i>
-                <div class="section-header-text">Day 3 | 太宰府</div>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">一蘭拉麵 太宰府參道店</div>
-                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.08</div>
-                            <p class="card-desc">五角碗合格拉麵，麵條加長寓意長壽。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=一蘭拉麵+太宰府參道店" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">太宰府天滿宮</div>
-                            <p class="card-desc">參拜學問之神，必吃梅枝餅。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=太宰府天滿宮" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="transit-info"><i class="fas fa-car"></i> 車程 1.5 小時</div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">由布院溫泉</div>
-                            <p class="card-desc">漫步湯之坪街道，欣賞金鱗湖美景。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=由布院溫泉" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="transit-info"><i class="fas fa-car"></i> 車程 1 小時 40 分</div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">皿倉山纜車 (新日本三大夜景)</div>
-                            <p class="card-desc">搭乘纜車上山，將北九州繁華燈火盡收眼底。<br><span style="color:#d65a73; font-size:0.9rem;">*請注意末班纜車時間</span></p>
-                            <a href="usercontent.com/maps.google.com/53" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="day4" class="tab-content">
-            <div class="section-header-styled">
-                <i class="fas fa-city section-header-icon"></i>
-                <div class="section-header-text">Day 4 | 博多</div>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">辦理還車</div>
-                            <p class="card-desc">前往 Nissan Rent-a-car 還車。</p>
-                             <a href="https://www.google.com/maps/search/?api=1&query=Nissan+Rent-a-car" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="transit-info"><i class="fas fa-subway"></i> 地鐵移動</div>
-                
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">午餐：博多純情拉麵 Shin-Shin</div>
-                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.58</div>
-                            <p class="card-desc">濃郁豚骨細麵，博多必吃。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=博多純情拉麵+Shin-Shin" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">天神地下街 & PARCO</div>
-                            <p class="card-desc">九州流行中心，好逛好買。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=天神地下街" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">晚餐：博多名物 牛腸鍋</div>
-                            <div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog 3.53</div>
-                            <p class="card-desc">推薦名店「大山」或「前田屋」。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=博多牛腸鍋" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="day5" class="tab-content">
-            <div class="section-header-styled">
-                <i class="fas fa-shopping-bag section-header-icon"></i>
-                <div class="section-header-text">Day 5 | 採買</div>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">博多車站 AMU PLAZA</div>
-                            <p class="card-desc">最後伴手禮採買：努努雞、博多通饅頭。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=AMU+PLAZA+博多" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">Ricoland 福岡機場店</div>
-                            <p class="card-desc">機車部品免稅採購聖地。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Ricoland+Fukuoka+Airport" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">前往福岡機場 (FUK)</div>
-                            <p class="card-desc">準備搭乘星宇航空 JX841 (19:10) 返回溫暖的家。<br>請記得提早辦理登機與領取免稅品。</p>
-                            <a href="maps.google.com/36" target="_blank" class="btn-map"><i class="fab fa-google"></i> 導航</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="expense" class="tab-content">
-             <div class="section-header-styled">
-                <i class="fas fa-wallet section-header-icon"></i>
-                <div class="section-header-text">記帳本</div>
-             </div>
-             
-             <div class="total-display">
-                 <p style="font-size:0.9rem; margin-bottom:5px;">總支出 (約台幣)</p>
-                 <div style="font-size: 2.5rem; font-weight: 900;">NT$ <span id="total-twd">0</span></div>
-             </div>
-
-             <div class="card" style="padding: 20px;">
-                 <div class="form-group" style="display:flex; align-items:center; gap:10px;">
-                    <label style="color:#555; font-weight:bold;">匯率:</label>
-                    <input type="number" id="exchange-rate" value="0.22" step="0.001" class="form-input" style="flex:1;">
-                 </div>
-
-                 <div class="form-group">
-                     <input type="text" id="item-name" class="form-input" placeholder="項目名稱 (如: 午餐)">
-                 </div>
-                 <div class="form-group">
-                     <input type="number" id="item-amount-jpy" class="form-input" placeholder="日幣金額">
-                 </div>
-                 <button class="btn-action" onclick="addExpense()">新增支出</button>
-             </div>
-
-             <ul id="expense-list" style="list-style:none;"></ul>
-        </div>
-
-        <div id="checklist" class="tab-content">
-            <div class="section-header-styled">
-                <i class="fas fa-clipboard-check section-header-icon"></i>
-                <div class="section-header-text">行前準備</div>
-            </div>
-            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <input type="text" id="new-check-item" class="form-input" placeholder="新增待辦..." style="flex:1;">
-                <button class="btn-action" style="width:auto; padding:0 25px; background:var(--primary-text);" onclick="addChecklistItem()">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div>
-            <div id="checklist-container"></div>
-
-            <div class="section-header-styled" style="margin-top: 40px;">
-                <i class="fas fa-shopping-cart section-header-icon"></i>
-                <div class="section-header-text">購買清單</div>
-            </div>
-            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <input type="text" id="new-shop-item" class="form-input" placeholder="新增購買項目..." style="flex:1;">
-                <button class="btn-action" style="width:auto; padding:0 25px; background:var(--primary-text);" onclick="addShopItem()">
-                    <i class="fas fa-plus"></i>
-                </button>
+                <button class="btn-action" onclick="addShopItem()">加入清單</button>
             </div>
             <div id="shopping-list-container"></div>
         </div>
 
+        <div id="expense" class="tab-content">
+             <div class="section-header-styled"><i class="fas fa-wallet section-header-icon"></i><div class="section-header-text">記帳本</div></div>
+             <div style="background:linear-gradient(135deg,#FF9A9E,#FECFEF); color:#fff; padding:25px; border-radius:20px; text-align:center; margin-bottom:20px; box-shadow:0 10px 20px rgba(255,154,158,0.4);">
+                 <p style="font-size:0.9rem">總支出 (TWD)</p><div style="font-size:2rem; font-weight:900" id="total-twd">0</div>
+             </div>
+             <div class="shopping-form">
+                 <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+                    <label style="font-weight:bold; color:#555">匯率:</label>
+                    <input type="number" id="exchange-rate" value="0.22" step="0.001" class="shop-input" style="margin-bottom:0">
+                 </div>
+                 <input type="text" id="exp-name" class="shop-input" placeholder="項目">
+                 <input type="number" id="exp-amt" class="shop-input" placeholder="日幣金額">
+                 <button class="btn-action" onclick="addExpense()">新增支出</button>
+             </div>
+             <ul id="expense-list" style="list-style:none"></ul>
+        </div>
+
+        <div id="checklist" class="tab-content">
+            <div class="section-header-styled"><i class="fas fa-clipboard-check section-header-icon"></i><div class="section-header-text">行前準備</div></div>
+            <div style="display:flex; gap:10px; margin-bottom:20px;">
+                <input type="text" id="check-new" class="shop-input" placeholder="新增待辦..." style="margin-bottom:0">
+                <button class="btn-action" style="width:auto; padding:0 25px; margin-top:0" onclick="addChecklistItem()">+</button>
+            </div>
+            <div id="checklist-container"></div>
+        </div>
+
+    </div>
+
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal-glass">
+            <div class="modal-title" id="modal-header">編輯項目</div>
+            
+            <div id="modal-fields-spot">
+                <div class="modal-input-group">
+                    <label class="modal-label">名稱 / 標題</label>
+                    <input type="text" id="modal-spot-title" class="modal-input">
+                </div>
+                <div class="modal-input-group">
+                    <label class="modal-label">備註 / 描述</label>
+                    <textarea id="modal-spot-desc" class="modal-input" rows="3"></textarea>
+                </div>
+                <div class="modal-input-group">
+                    <label class="modal-label">Google Map 連結</label>
+                    <input type="text" id="modal-spot-link" class="modal-input" placeholder="https://...">
+                </div>
+            </div>
+
+            <div id="modal-fields-transit" style="display:none;">
+                <div class="modal-input-group">
+                    <label class="modal-label">交通方式</label>
+                    <select id="modal-transit-icon" class="modal-select">
+                        <option value="fa-car">🚗 開車</option>
+                        <option value="fa-train">🚅 電車/地鐵</option>
+                        <option value="fa-walking">🚶 步行</option>
+                        <option value="fa-bus">🚌 巴士</option>
+                        <option value="fa-ship">🚢 船/渡輪</option>
+                        <option value="fa-plane">✈️ 飛機</option>
+                    </select>
+                </div>
+                <div class="modal-input-group">
+                    <label class="modal-label">交通時間 / 說明</label>
+                    <input type="text" id="modal-transit-text" class="modal-input" placeholder="例：車程 40 分鐘">
+                </div>
+            </div>
+
+            <div class="modal-btns">
+                <button class="btn-modal-cancel" onclick="closeModal()">取消</button>
+                <button class="btn-modal-save" onclick="saveModal()">儲存</button>
+            </div>
+        </div>
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('day1', this)"><i class="fas fa-calendar-day"></i><span>D1</span></div>
+        <div class="nav-item active" onclick="switchTab('cover', this)"><i class="fas fa-home"></i><span>首頁</span></div>
+        <div class="nav-item" onclick="switchTab('flight', this)"><i class="fas fa-plane"></i><span>航班</span></div>
+        <div class="nav-item" onclick="switchTab('day1', this)"><i class="fas fa-calendar-day"></i><span>D1</span></div>
         <div class="nav-item" onclick="switchTab('day2', this)"><i class="fas fa-calendar-day"></i><span>D2</span></div>
         <div class="nav-item" onclick="switchTab('day3', this)"><i class="fas fa-calendar-day"></i><span>D3</span></div>
         <div class="nav-item" onclick="switchTab('day4', this)"><i class="fas fa-calendar-day"></i><span>D4</span></div>
         <div class="nav-item" onclick="switchTab('day5', this)"><i class="fas fa-calendar-day"></i><span>D5</span></div>
+        <div class="nav-item" onclick="switchTab('shopping', this)"><i class="fas fa-cart-plus"></i><span>採買</span></div>
         <div class="nav-item" onclick="switchTab('expense', this)"><i class="fas fa-calculator"></i><span>記帳</span></div>
-        <div class="nav-item" onclick="switchTab('flight', this)"><i class="fas fa-plane"></i><span>航班</span></div>
         <div class="nav-item" onclick="switchTab('checklist', this)"><i class="fas fa-check-square"></i><span>清單</span></div>
     </nav>
 
     <script>
-        // --- 1. 背景特效 (雪花與櫻花) ---
-        function createFallingEffect() {
-            const container = document.getElementById('falling-container');
-            const count = 35; 
-            for (let i = 0; i < count; i++) {
-                const item = document.createElement('i');
-                item.classList.add('falling-item', 'fas');
-                if (Math.random() > 0.5) {
-                    item.classList.add('fa-snowflake', 'snowflake');
-                    item.style.fontSize = (Math.random() * 10 + 8) + 'px';
-                } else {
-                    item.classList.add('fa-leaf', 'sakura'); 
-                    item.style.fontSize = (Math.random() * 14 + 10) + 'px';
-                }
-                item.style.left = Math.random() * 100 + '%';
-                item.style.animationDuration = (Math.random() * 5 + 8) + 's';
-                item.style.animationDelay = (Math.random() * -15) + 's'; 
-                container.appendChild(item);
+        // --- Init Data ---
+        const INITIAL_ITINERARY = [
+            {
+                id: 'day1', title: 'Day 1 | 熊本', icon: 'fa-chess-rook',
+                items: [
+                    {type:'spot', title:'熊本城 & 稻荷神社', desc:'日本三大名城之一，黑色城堡威風凜凜。', link:'https://www.google.com/maps/search/?api=1&query=熊本城'},
+                    {type:'transit', icon:'fa-walking', text:'步行 5 分鐘'},
+                    {type:'spot', title:'櫻之馬場 城彩苑', desc:'江戶風情商店街，推薦「海膽可樂餅」。', link:'https://www.google.com/maps/search/?api=1&query=櫻之馬場+城彩苑'},
+                    {type:'transit', icon:'fa-train', text:'市電 15 分鐘'},
+                    {type:'spot', title:'勝烈亭 新市街本店', desc:'鹿兒島黑豚炸豬排，熊本必吃。', link:'https://www.google.com/maps/search/?api=1&query=勝烈亭+新市街本店'},
+                    {type:'spot', title:'Check-in', desc:'前往 White Crystal 辦理入住。', link:''}
+                ]
+            },
+            {
+                id: 'day2', title: 'Day 2 | 自駕與購物', icon: 'fa-car',
+                items: [
+                    {type:'spot', title:'租車 (Nissan)', desc:'請備妥：護照、台灣駕照、日文譯本。', link:'https://www.google.com/maps/search/?api=1&query=Nissan+Rent-a-car+Hakataeki+Minami'},
+                    {type:'transit', icon:'fa-car', text:'車程 40 分鐘'},
+                    {type:'spot', title:'鳥栖 PREMIUM OUTLETS', desc:'九州最大 Outlet，歐美日系品牌齊全。', link:'https://www.google.com/maps/search/?api=1&query=鳥栖PREMIUM+OUTLETS'},
+                    {type:'transit', icon:'fa-car', text:'車程 30 分鐘'},
+                    {type:'spot', title:'久留米 & 高良大社', desc:'感受在地商店街氛圍，俯瞰筑後平原。', link:'googleusercontent.com/maps.google.com/52'},
+                    {type:'transit', icon:'fa-car', text:'車程 50 分鐘'},
+                    {type:'spot', title:'LaLaport 福岡', desc:'必看 1:1 實體大鋼彈。', link:'https://www.google.com/maps/search/?api=1&query=LaLaport+福岡'}
+                ]
+            },
+            {
+                id: 'day3', title: 'Day 3 | 太宰府與由布院', icon: 'fa-torii-gate',
+                items: [
+                    {type:'spot', title:'一蘭拉麵 太宰府參道店', desc:'全球唯一五角碗合格拉麵。', link:'https://www.google.com/maps/search/?api=1&query=一蘭拉麵+太宰府參道店'},
+                    {type:'spot', title:'太宰府天滿宮', desc:'參拜學問之神，必吃梅枝餅。', link:'https://www.google.com/maps/search/?api=1&query=太宰府天滿宮'},
+                    {type:'transit', icon:'fa-car', text:'車程 1.5 小時'},
+                    {type:'spot', title:'由布院溫泉', desc:'漫步湯之坪街道，欣賞金鱗湖美景。', link:'https://www.google.com/maps/search/?api=1&query=由布院溫泉'},
+                    {type:'transit', icon:'fa-car', text:'車程 1 小時 40 分'},
+                    {type:'spot', title:'皿倉山纜車', desc:'新日本三大夜景，注意末班車時間。', link:'usercontent.com/maps.google.com/53'}
+                ]
+            },
+            {
+                id: 'day4', title: 'Day 4 | 博多天神散策', icon: 'fa-city',
+                items: [
+                    {type:'spot', title:'辦理還車', desc:'前往 Nissan Rent-a-car 還車。', link:'https://www.google.com/maps/search/?api=1&query=Nissan+Rent-a-car'},
+                    {type:'transit', icon:'fa-subway', text:'地鐵移動'},
+                    {type:'spot', title:'午餐：Shin-Shin', desc:'博多純情豚骨拉麵，濃郁不膩。', link:'https://www.google.com/maps/search/?api=1&query=博多純情拉麵+Shin-Shin'},
+                    {type:'spot', title:'天神地下街 & PARCO', desc:'九州流行中心，好逛好買。', link:'https://www.google.com/maps/search/?api=1&query=天神地下街'},
+                    {type:'spot', title:'晚餐：牛腸鍋', desc:'推薦名店「大山」或「前田屋」。', link:'https://www.google.com/maps/search/?api=1&query=博多牛腸鍋'}
+                ]
+            },
+            {
+                id: 'day5', title: 'Day 5 | 採買與返程', icon: 'fa-shopping-bag',
+                items: [
+                    {type:'spot', title:'博多車站 AMU PLAZA', desc:'最後伴手禮：努努雞、博多通饅頭。', link:'https://www.google.com/maps/search/?api=1&query=AMU+PLAZA+博多'},
+                    {type:'spot', title:'Ricoland 福岡機場店', desc:'機車部品免稅採購聖地。', link:'https://www.google.com/maps/search/?api=1&query=Ricoland+Fukuoka+Airport'},
+                    {type:'spot', title:'前往福岡機場 (FUK)', desc:'搭乘 JX841 (19:10) 返台。', link:'maps.google.com/36'}
+                ]
             }
-        }
-
-        // --- 2. 分頁切換 ---
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            element.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // --- 3. 記帳功能 (含自動儲存) ---
-        const EXPENSE_KEY = 'travel_expenses_2026_save'; 
-        let expenses = JSON.parse(localStorage.getItem(EXPENSE_KEY)) || [];
-        let currentRate = 0.22;
-        const rateInput = document.getElementById('exchange-rate');
-
-        if(rateInput){
-            rateInput.addEventListener('change', function() {
-                currentRate = parseFloat(this.value) || 0.22;
-                renderExpenseList();
-            });
-        }
-
-        function addExpense() {
-            const nameInput = document.getElementById('item-name');
-            const amountInput = document.getElementById('item-amount-jpy');
-            const name = nameInput.value.trim();
-            const jpy = parseFloat(amountInput.value);
-            if(name && jpy > 0) {
-                expenses.unshift({ name, jpy });
-                updateExpenseData(); 
-                nameInput.value = ''; amountInput.value = '';
-            }
-        }
-
-        function deleteExpense(idx) {
-            if(confirm('確定要刪除這筆支出嗎？')) {
-                expenses.splice(idx, 1);
-                updateExpenseData(); 
-            }
-        }
-
-        function updateExpenseData() {
-            localStorage.setItem(EXPENSE_KEY, JSON.stringify(expenses));
-            renderExpenseList();
-        }
-
-        function renderExpenseList() {
-            const list = document.getElementById('expense-list');
-            if(!list) return;
-            list.innerHTML = '';
-            let total = 0;
-            expenses.forEach((item, idx) => {
-                let twd = Math.round(item.jpy * currentRate);
-                total += twd;
-                list.innerHTML += `
-                    <li class="list-item">
-                        <div>
-                            <div style="font-weight:bold;">${item.name}</div>
-                            <div style="font-size:0.85rem; color:#666;">¥${item.jpy.toLocaleString()}</div>
-                        </div>
-                        <div style="display:flex; align-items:center;">
-                            <div style="font-weight:bold; color:var(--accent-pink); margin-right:10px;">NT$${twd.toLocaleString()}</div>
-                            <i class="fas fa-trash-alt" style="color:#888; cursor:pointer;" onclick="deleteExpense(${idx})"></i>
-                        </div>
-                    </li>`;
-            });
-            const totalDisplay = document.getElementById('total-twd');
-            if(totalDisplay) totalDisplay.innerText = total.toLocaleString();
-        }
-
-        // --- 4. 行前準備清單 (含自動儲存) ---
-        const CHECKLIST_KEY = 'travel_list_2026_final';
-        let checklistData = JSON.parse(localStorage.getItem(CHECKLIST_KEY)) || [
-            {text:"護照", checked:false}, {text:"日幣", checked:false}, {text:"駕照譯本", checked:false}
         ];
-        
-        function renderChecklist() {
-            const con = document.getElementById('checklist-container');
-            if(!con) return;
-            con.innerHTML = '';
-            checklistData.forEach((item, idx) => {
-                con.innerHTML += `
-                <div class="list-item" style="${item.checked?'opacity:0.6':''}">
-                    <div style="display:flex; align-items:center; flex:1; cursor:pointer;" onclick="toggleCheck(${idx})">
-                        <i class="fas ${item.checked?'fa-check-circle':'fa-circle'}" style="color:${item.checked?'var(--accent-pink)':'#bbb'}; font-size:1.2rem; margin-right:12px;"></i>
-                        <div style="font-weight:500; ${item.checked?'text-decoration:line-through; color:#777':''}">${item.text}</div>
+
+        // --- Core Logic ---
+        const ITINERARY_KEY = 'travel_itinerary_2026_v2';
+        let itineraryData = JSON.parse(localStorage.getItem(ITINERARY_KEY)) || INITIAL_ITINERARY;
+        let currentEdit = { d: null, i: null }; // Track what is being edited
+
+        function saveItinerary() {
+            localStorage.setItem(ITINERARY_KEY, JSON.stringify(itineraryData));
+        }
+
+        function renderItinerary() {
+            itineraryData.forEach((day, dayIdx) => {
+                const container = document.getElementById(day.id);
+                if (!container) return;
+
+                let html = `
+                    <div class="section-header-styled">
+                        <i class="fas ${day.icon} section-header-icon"></i>
+                        <div class="section-header-text">${day.title}</div>
                     </div>
-                    <i class="fas fa-trash-alt" style="color:#aaa; cursor:pointer;" onclick="deleteCheckItem(${idx})"></i>
-                </div>`;
-            });
-            localStorage.setItem(CHECKLIST_KEY, JSON.stringify(checklistData));
-        }
+                    <div class="timeline">
+                `;
 
-        function addChecklistItem() {
-            const val = document.getElementById('new-check-item').value.trim();
-            if(val) { checklistData.push({text:val, checked:false}); document.getElementById('new-check-item').value=''; renderChecklist(); }
-        }
-        function toggleCheck(idx) { checklistData[idx].checked = !checklistData[idx].checked; renderChecklist(); }
-        function deleteCheckItem(idx) { if(confirm('刪除?')) { checklistData.splice(idx,1); renderChecklist(); }}
+                day.items.forEach((item, itemIdx) => {
+                    if (item.type === 'spot') {
+                        html += `
+                        <div class="timeline-item">
+                            <div class="card">
+                                <div class="card-actions">
+                                    <div class="btn-icon-action" onclick="openEditModal(${dayIdx}, ${itemIdx})"><i class="fas fa-pen"></i></div>
+                                    <div class="btn-icon-action delete" onclick="deleteItem(${dayIdx}, ${itemIdx})"><i class="fas fa-trash-alt"></i></div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title">${item.title}</div>
+                                    <div class="card-desc">${item.desc}</div>
+                                    ${item.link ? `<a href="${item.link}" target="_blank" class="btn-map">導航</a>` : ''}
+                                </div>
+                            </div>
+                        </div>`;
+                    } else if (item.type === 'transit') {
+                        html += `
+                        <div class="transit-container">
+                            <div class="transit-info">
+                                <i class="fas ${item.icon} transit-icon"></i>
+                                <span>${item.text}</span>
+                            </div>
+                            <div class="transit-actions">
+                                <i class="fas fa-pen" onclick="openEditModal(${dayIdx}, ${itemIdx})"></i>
+                                <i class="fas fa-trash-alt" style="color:#aaa" onclick="deleteItem(${dayIdx}, ${itemIdx})"></i>
+                            </div>
+                        </div>`;
+                    }
+                });
 
-        // --- 5. 購買清單 (新增功能) ---
-        const SHOPPING_KEY = 'travel_shopping_list_2026';
-        let shoppingData = JSON.parse(localStorage.getItem(SHOPPING_KEY)) || [];
-
-        function renderShoppingList() {
-            const con = document.getElementById('shopping-list-container');
-            if(!con) return;
-            con.innerHTML = '';
-            shoppingData.forEach((item, idx) => {
-                con.innerHTML += `
-                <div class="list-item" style="${item.checked?'opacity:0.6':''}">
-                    <div style="display:flex; align-items:center; flex:1; cursor:pointer;" onclick="toggleShopCheck(${idx})">
-                        <i class="fas ${item.checked?'fa-check-circle':'fa-circle'}" style="color:${item.checked?'var(--accent-pink)':'#bbb'}; font-size:1.2rem; margin-right:12px;"></i>
-                        <div style="font-weight:500; ${item.checked?'text-decoration:line-through; color:#777':''}">${item.text}</div>
+                html += `
                     </div>
-                    <i class="fas fa-trash-alt" style="color:#aaa; cursor:pointer;" onclick="deleteShopItem(${idx})"></i>
-                </div>`;
+                    <div class="add-buttons-container">
+                        <div class="btn-add-trip" onclick="addItem(${dayIdx}, 'spot')"><i class="fas fa-plus"></i> 景點</div>
+                        <div class="btn-add-trip" onclick="addItem(${dayIdx}, 'transit')"><i class="fas fa-plus"></i> 交通</div>
+                    </div>
+                `;
+                container.innerHTML = html;
             });
-            localStorage.setItem(SHOPPING_KEY, JSON.stringify(shoppingData));
         }
 
-        function addShopItem() {
-            const val = document.getElementById('new-shop-item').value.trim();
-            if(val) { shoppingData.push({text:val, checked:false}); document.getElementById('new-shop-item').value=''; renderShoppingList(); }
+        // --- Modal & Edit Logic ---
+        function openEditModal(d, i) {
+            currentEdit = { d, i };
+            const item = itineraryData[d].items[i];
+            const modal = document.getElementById('edit-modal');
+            
+            if (item.type === 'spot') {
+                document.getElementById('modal-header').innerText = "編輯景點";
+                document.getElementById('modal-fields-spot').style.display = 'block';
+                document.getElementById('modal-fields-transit').style.display = 'none';
+                document.getElementById('modal-spot-title').value = item.title;
+                document.getElementById('modal-spot-desc').value = item.desc;
+                document.getElementById('modal-spot-link').value = item.link;
+            } else {
+                document.getElementById('modal-header').innerText = "編輯交通";
+                document.getElementById('modal-fields-spot').style.display = 'none';
+                document.getElementById('modal-fields-transit').style.display = 'block';
+                document.getElementById('modal-transit-icon').value = item.icon;
+                document.getElementById('modal-transit-text').value = item.text;
+            }
+            modal.classList.add('show');
         }
-        function toggleShopCheck(idx) { shoppingData[idx].checked = !shoppingData[idx].checked; renderShoppingList(); }
-        function deleteShopItem(idx) { if(confirm('刪除?')) { shoppingData.splice(idx,1); renderShoppingList(); }}
 
-        // --- 6. 初始化 ---
+        function closeModal() {
+            document.getElementById('edit-modal').classList.remove('show');
+        }
+
+        function saveModal() {
+            const d = currentEdit.d;
+            const i = currentEdit.i;
+            const item = itineraryData[d].items[i];
+
+            if (item.type === 'spot') {
+                item.title = document.getElementById('modal-spot-title').value;
+                item.desc = document.getElementById('modal-spot-desc').value;
+                item.link = document.getElementById('modal-spot-link').value;
+            } else {
+                item.icon = document.getElementById('modal-transit-icon').value;
+                item.text = document.getElementById('modal-transit-text').value;
+            }
+            saveItinerary();
+            renderItinerary();
+            closeModal();
+        }
+
+        function deleteItem(d, i) {
+            if(confirm("確定刪除此項目？")) { 
+                itineraryData[d].items.splice(i, 1); 
+                saveItinerary(); 
+                renderItinerary(); 
+            }
+        }
+
+        function addItem(d, type) {
+            // Push empty item then open modal for it
+            if(type === 'spot') {
+                itineraryData[d].items.push({type:'spot', title:'新景點', desc:'', link:''});
+            } else {
+                itineraryData[d].items.push({type:'transit', icon:'fa-car', text:'車程 10 分鐘'});
+            }
+            // Save and render first to create the DOM element
+            saveItinerary();
+            renderItinerary();
+            // Then open modal for the newly created item (last index)
+            openEditModal(d, itineraryData[d].items.length - 1);
+        }
+
+        // --- Other Logic (Shop, Exp, Check) ---
+        function createFallingEffect() { const c=document.getElementById('falling-container'); for(let i=0;i<30;i++){ const e=document.createElement('i'); e.className='falling-item fas '+(Math.random()>.5?'fa-snowflake snowflake':'fa-leaf sakura'); e.style.left=Math.random()*100+'%'; e.style.animationDuration=(Math.random()*5+5)+'s'; e.style.animationDelay=(Math.random()*-10)+'s'; e.style.fontSize=(Math.random()*10+10)+'px'; c.appendChild(e); } }
+        function switchTab(id, el) { document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active')); el.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+        function startJourney() { switchTab('flight', document.querySelectorAll('.nav-item')[1]); }
+
+        const SHOP_KEY='travel_shop_2026_v3', EXP_KEY='travel_exp_2026_final', CHECK_KEY='travel_check_2026_final';
+        let shopData=JSON.parse(localStorage.getItem(SHOP_KEY))||[], expenses=JSON.parse(localStorage.getItem(EXP_KEY))||[], checks=JSON.parse(localStorage.getItem(CHECK_KEY))||[{text:"護照",checked:false},{text:"日幣",checked:false}];
+        let rate=0.22;
+
+        function renderShop(){ const c=document.getElementById('shopping-list-container'); c.innerHTML=''; shopData.forEach((i,x)=>{ c.innerHTML+=`<div class="shop-item ${i.checked?'checked':''}"><div style="flex:1"><div class="shop-name">${i.name}</div>${i.note?`<div class="shop-note"><i class="fas fa-sticky-note"></i> ${i.note}</div>`:''}</div><div class="shop-actions">${i.link?`<a href="${i.link}" target="_blank" class="btn-link"><i class="fas fa-map-marker-alt"></i></a>`:''}<i class="fas fa-check-circle btn-check" onclick="toggleShop(${x})"></i><i class="fas fa-trash-alt btn-trash" onclick="delShop(${x})"></i></div></div>`; }); localStorage.setItem(SHOP_KEY,JSON.stringify(shopData)); }
+        function addShopItem(){ const n=document.getElementById('shop-name').value, nt=document.getElementById('shop-note').value, l=document.getElementById('shop-link').value; if(n){ shopData.push({name:n,note:nt,link:l,checked:false}); document.getElementById('shop-name').value=''; document.getElementById('shop-note').value=''; document.getElementById('shop-link').value=''; renderShop(); } }
+        function toggleShop(i){ shopData[i].checked=!shopData[i].checked; renderShop(); } function delShop(i){ if(confirm('刪除?')){ shopData.splice(i,1); renderShop(); } }
+
+        function renderExp(){ const l=document.getElementById('expense-list'); l.innerHTML=''; let t=0; expenses.forEach((e,i)=>{ let v=Math.round(e.amt*rate); t+=v; l.innerHTML+=`<div class="list-item"><div><div style="font-weight:bold">${e.name}</div><div style="font-size:0.8rem;color:#666">¥${e.amt}</div></div><div style="display:flex;align-items:center;gap:10px"><div style="font-weight:bold;color:var(--accent-pink)">NT$${v}</div><i class="fas fa-trash-alt" style="color:#aaa" onclick="delExp(${i})"></i></div></div>`; }); document.getElementById('total-twd').innerText=t.toLocaleString(); localStorage.setItem(EXP_KEY,JSON.stringify(expenses)); }
+        function addExpense(){ const n=document.getElementById('exp-name').value, a=document.getElementById('exp-amt').value; if(n&&a){ expenses.unshift({name:n,amt:a}); document.getElementById('exp-name').value=''; document.getElementById('exp-amt').value=''; renderExp(); } }
+        function delExp(i){ if(confirm('刪除?')){ expenses.splice(i,1); renderExp(); } }
+
+        function renderCheck(){ const c=document.getElementById('checklist-container'); c.innerHTML=''; checks.forEach((k,i)=>{ c.innerHTML+=`<div class="list-item" style="${k.checked?'opacity:0.5':''}"><div style="flex:1;display:flex;align-items:center;cursor:pointer" onclick="toggleCheck(${i})"><i class="fas ${k.checked?'fa-check-circle':'fa-circle'}" style="margin-right:10px;color:var(--accent-pink)"></i><span style="${k.checked?'text-decoration:line-through':''}">${k.text}</span></div><i class="fas fa-trash-alt" style="color:#aaa" onclick="delCheck(${i})"></i></div>`; }); localStorage.setItem(CHECK_KEY,JSON.stringify(checks)); }
+        function addChecklistItem(){ const v=document.getElementById('check-new').value; if(v){ checks.push({text:v,checked:false}); document.getElementById('check-new').value=''; renderCheck(); } }
+        function toggleCheck(i){ checks[i].checked=!checks[i].checked; renderCheck(); } function delCheck(i){ if(confirm('刪除?')){ checks.splice(i,1); renderCheck(); } }
+
         document.addEventListener('DOMContentLoaded', () => {
-            createFallingEffect(); 
-            const rateInput = document.getElementById('exchange-rate');
-            if(rateInput) rateInput.value = currentRate;
-            renderExpenseList();
-            renderChecklist();
-            renderShoppingList(); // 初始化購買清單
+            createFallingEffect(); renderItinerary(); renderShop(); renderExp(); renderCheck();
+            document.getElementById('exchange-rate').addEventListener('change', function(){ rate=this.value; renderExp(); });
         });
     </script>
 </body>
