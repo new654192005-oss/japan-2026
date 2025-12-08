@@ -36,7 +36,6 @@
             0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
         }
 
-        /* Falling Effects */
         #falling-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
         .falling-item { position: absolute; top: -50px; animation: fall linear infinite; }
         .snowflake { color: rgba(255, 255, 255, 0.9); filter: drop-shadow(0 0 2px rgba(255,255,255,0.6)); }
@@ -87,21 +86,18 @@
             margin-bottom: 25px; overflow: hidden; position: relative;
         }
         .card-body { padding: 20px; }
-        .card-title { font-family: 'Noto Serif TC'; font-size: 1.2rem; font-weight: 800; color: #222; margin-bottom: 10px; display:flex; align-items:center; }
-        .card-desc { font-size: 0.95rem; color: #444; line-height: 1.6; white-space: pre-wrap; }
+        .card-title { font-family: 'Noto Serif TC'; font-size: 1.2rem; font-weight: 800; color: #222; margin-bottom: 8px; display:flex; align-items:center; }
+        .card-desc { font-size: 0.95rem; color: #444; line-height: 1.6; white-space: pre-wrap; margin-bottom: 12px; }
 
         .btn-map {
             display: inline-block; justify-content: center; align-items: center;
             background: var(--btn-glass); border: 1px solid rgba(255,255,255,0.8);
             color: var(--accent-pink); padding: 8px 20px; border-radius: 50px;
-            text-decoration: none; font-size: 0.9rem; font-weight: 700; margin-top: 15px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 700;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer;
         }
 
-        /* --- New Edit/Delete Buttons --- */
-        .card-actions {
-            position: absolute; top: 15px; right: 15px; display: flex; gap: 8px;
-        }
+        .card-actions { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; }
         .btn-icon-action {
             width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.6);
             display: flex; align-items: center; justify-content: center;
@@ -112,13 +108,29 @@
 
         .add-buttons-container { display: flex; gap: 10px; justify-content: center; margin-bottom: 40px; }
         .btn-add-trip {
-            background: rgba(255,255,255,0.5); border: 1px solid #fff; padding: 10px 20px;
+            background: rgba(255,255,255,0.5); border: 1px solid #fff; padding: 12px 30px;
             border-radius: 15px; color: #555; font-weight: bold; cursor: pointer;
-            display: flex; align-items: center; gap: 5px; transition: 0.2s;
+            display: flex; align-items: center; gap: 5px; transition: 0.2s; width: 100%; justify-content: center;
         }
         .btn-add-trip:hover { background: #fff; color: var(--accent-pink); transform: translateY(-2px); }
 
-        /* Timeline & Transit */
+        .traffic-warning {
+            margin: 0 0 20px 20px; border: 2px dashed rgba(214, 90, 115, 0.4); border-radius: 15px; padding: 10px;
+            text-align: center; color: var(--accent-pink); font-size: 0.9rem; cursor: pointer;
+            background: rgba(255,255,255,0.2); transition: all 0.2s;
+        }
+        .traffic-warning:hover { background: rgba(255,255,255,0.6); transform: scale(1.02); }
+
+        /* Tabelog Badge */
+        .tabelog-badge {
+            display: inline-flex; align-items: center; 
+            background: #fff4e6; color: #fa8514; border: 1px solid #ffe8cc;
+            padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; 
+            margin-bottom: 8px; width: fit-content;
+        }
+        .tabelog-badge i { margin-right: 4px; }
+
+        /* Timeline */
         .timeline { position: relative; padding-left: 30px; }
         .timeline-item { position: relative; margin-bottom: 20px; }
         .timeline-item::before { content: ''; position: absolute; left: -36px; top: 20px; width: 12px; height: 12px; background: #fff; border: 3px solid var(--accent-pink); border-radius: 50%; z-index: 2; }
@@ -131,46 +143,57 @@
             border: 1px solid rgba(255,255,255,0.5); flex: 1; max-width: fit-content;
         }
         .transit-icon { margin-right: 8px; color: var(--primary-text); }
-        
         .transit-actions { display: flex; gap: 5px; margin-left: 10px; opacity: 0.6; }
         .transit-actions i { cursor: pointer; padding: 5px; font-size: 0.9rem; }
         .transit-actions i:hover { color: var(--accent-pink); opacity: 1; }
 
-        /* --- Modal (Pop-up) Styles --- */
+        /* Modal (Glass) */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
-            z-index: 2000; display: none; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.1); z-index: 2000; display: none; align-items: center; justify-content: center;
             opacity: 0; transition: opacity 0.3s;
         }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-glass {
-            background: rgba(255, 255, 255, 0.85); width: 90%; max-width: 400px;
-            padding: 25px; border-radius: 25px; border: 1px solid #fff;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2); transform: scale(0.9); transition: transform 0.3s;
+            background: rgba(255, 255, 255, 0.4); width: 90%; max-width: 400px;
+            padding: 25px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1); backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); transform: scale(0.9); transition: transform 0.3s;
         }
         .modal-overlay.show .modal-glass { transform: scale(1); }
-        .modal-title { font-size: 1.2rem; font-weight: 800; color: #333; margin-bottom: 20px; text-align: center; }
-        
+        .modal-title { font-size: 1.3rem; font-weight: 800; color: #222; margin-bottom: 20px; text-align: center; }
         .modal-input-group { margin-bottom: 15px; }
-        .modal-label { display: block; font-size: 0.9rem; font-weight: bold; color: #555; margin-bottom: 5px; }
+        .modal-label { display: block; font-size: 0.9rem; font-weight: bold; color: #444; margin-bottom: 5px; }
         .modal-input, .modal-select {
-            width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd;
-            font-size: 1rem; outline: none; background: #fff;
+            width: 100%; padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.5);
+            font-size: 1rem; outline: none; background: rgba(255,255,255,0.4); color: #222;
         }
-        .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-modal-save { flex: 1; padding: 12px; background: var(--accent-pink); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .btn-modal-cancel { flex: 1; padding: 12px; background: #ddd; color: #555; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .modal-input:focus { background: rgba(255,255,255,0.7); }
+        .modal-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .btn-modal-save { flex: 1; padding: 12px; background: var(--accent-pink); color: white; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(214, 90, 115, 0.3); }
+        .btn-modal-cancel { flex: 1; padding: 12px; background: rgba(255,255,255,0.5); color: #555; border: 1px solid #fff; border-radius: 15px; font-weight: bold; cursor: pointer; }
 
-        /* Other Styles */
-        .shopping-form { background: rgba(255,255,255,0.4); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.5); }
-        .shop-input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6); background: rgba(255,255,255,0.5); font-size: 0.95rem; outline: none; margin-bottom: 10px; }
-        .btn-action { width: 100%; padding: 14px; background: #333; color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 1rem; }
-        .list-item { background: rgba(255,255,255,0.6); padding: 15px; margin-bottom: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .shop-item { background: rgba(255,255,255,0.6); padding: 15px; margin-bottom: 10px; border-radius: 16px; display: flex; align-items: flex-start; justify-content: space-between; }
-        .shop-note { font-size: 0.85rem; color: #666; margin-top: 4px; }
-        .btn-link { color: var(--accent-pink); font-size: 1.2rem; margin-right: 10px;}
+        /* Lists */
+        .list-item, .shop-item { background: rgba(255,255,255,0.6); padding: 15px; margin-bottom: 10px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); display: flex; justify-content: space-between; align-items: center; }
+        .shop-item { align-items: flex-start; }
+        .shop-name { font-weight: 700; color: #333; font-size: 1.05rem; }
+        .shop-note { font-size: 0.85rem; color: #666; margin-top: 4px; display: flex; align-items: center; }
+        .shop-actions { display: flex; align-items: center; gap: 15px; margin-left: 10px;}
+        .btn-link { color: var(--accent-pink); font-size: 1.2rem; }
+        .btn-check { color: #ccc; font-size: 1.2rem; cursor: pointer; }
+        .shop-item.checked .btn-check { color: var(--accent-pink); }
         .shop-item.checked .shop-name { text-decoration: line-through; opacity: 0.5; }
+        .btn-trash { color: #aaa; font-size: 1rem; cursor: pointer; }
+        .btn-add-block {
+            width: 100%; padding: 15px; border-radius: 20px; background: rgba(255, 255, 255, 0.3); 
+            border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px);
+            color: var(--primary-text); font-weight: bold; font-size: 1rem; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 20px; transition: transform 0.2s;
+        }
+        .btn-add-block:active { transform: scale(0.98); background: rgba(255,255,255,0.6); }
+
+        /* Other */
         .cover-card { background: rgba(255, 255, 255, 0.4); border-radius: 30px; padding: 40px 20px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); margin-top: 20px; }
         .cover-icon { font-size: 4rem; color: var(--accent-pink); margin-bottom: 20px; animation: floatIcon 4s ease-in-out infinite; }
         .btn-start { display: inline-block; width: 100%; padding: 18px; background: #333; color: white; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border: none; }
@@ -257,15 +280,8 @@
 
         <div id="shopping" class="tab-content">
             <div class="section-header-styled"><i class="fas fa-cart-plus section-header-icon"></i><div class="section-header-text">購買清單</div></div>
-            <div class="shopping-form">
-                <div class="shop-input-group"><input type="text" id="shop-name" class="shop-input" placeholder="商品名稱"></div>
-                <div class="shop-row">
-                    <div style="flex:1"><input type="text" id="shop-note" class="shop-input" placeholder="備註"></div>
-                    <div style="flex:1"><input type="text" id="shop-link" class="shop-input" placeholder="Google Map 連結"></div>
-                </div>
-                <button class="btn-action" onclick="addShopItem()">加入清單</button>
-            </div>
             <div id="shopping-list-container"></div>
+            <button class="btn-add-block" onclick="openModal('shopping')"><i class="fas fa-plus"></i> 新增清單</button>
         </div>
 
         <div id="expense" class="tab-content">
@@ -273,69 +289,61 @@
              <div style="background:linear-gradient(135deg,#FF9A9E,#FECFEF); color:#fff; padding:25px; border-radius:20px; text-align:center; margin-bottom:20px; box-shadow:0 10px 20px rgba(255,154,158,0.4);">
                  <p style="font-size:0.9rem">總支出 (TWD)</p><div style="font-size:2rem; font-weight:900" id="total-twd">0</div>
              </div>
-             <div class="shopping-form">
-                 <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
-                    <label style="font-weight:bold; color:#555">匯率:</label>
-                    <input type="number" id="exchange-rate" value="0.22" step="0.001" class="shop-input" style="margin-bottom:0">
-                 </div>
-                 <input type="text" id="exp-name" class="shop-input" placeholder="項目">
-                 <input type="number" id="exp-amt" class="shop-input" placeholder="日幣金額">
-                 <button class="btn-action" onclick="addExpense()">新增支出</button>
+             <div style="text-align:right; margin-bottom:10px;">
+                 <label style="font-weight:bold; color:#555">匯率: </label>
+                 <input type="number" id="exchange-rate" value="0.22" step="0.001" style="width:80px; padding:5px; border-radius:8px; border:1px solid #ccc;">
              </div>
              <ul id="expense-list" style="list-style:none"></ul>
+             <button class="btn-add-block" onclick="openModal('expense')"><i class="fas fa-plus"></i> 新增支出</button>
         </div>
 
         <div id="checklist" class="tab-content">
             <div class="section-header-styled"><i class="fas fa-clipboard-check section-header-icon"></i><div class="section-header-text">行前準備</div></div>
-            <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <input type="text" id="check-new" class="shop-input" placeholder="新增待辦..." style="margin-bottom:0">
-                <button class="btn-action" style="width:auto; padding:0 25px; margin-top:0" onclick="addChecklistItem()">+</button>
-            </div>
             <div id="checklist-container"></div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <input type="text" id="check-new" class="modal-input" placeholder="新增待辦..." style="margin-bottom:0">
+                <button class="btn-action" style="width:auto; padding:0 25px; margin:0;" onclick="addChecklistItem()">+</button>
+            </div>
         </div>
 
     </div>
 
-    <div id="edit-modal" class="modal-overlay">
+    <div id="universal-modal" class="modal-overlay">
         <div class="modal-glass">
-            <div class="modal-title" id="modal-header">編輯項目</div>
+            <div class="modal-title" id="uni-modal-title">編輯項目</div>
             
-            <div id="modal-fields-spot">
-                <div class="modal-input-group">
-                    <label class="modal-label">名稱 / 標題</label>
-                    <input type="text" id="modal-spot-title" class="modal-input">
-                </div>
-                <div class="modal-input-group">
-                    <label class="modal-label">備註 / 描述</label>
-                    <textarea id="modal-spot-desc" class="modal-input" rows="3"></textarea>
-                </div>
-                <div class="modal-input-group">
-                    <label class="modal-label">Google Map 連結</label>
-                    <input type="text" id="modal-spot-link" class="modal-input" placeholder="https://...">
-                </div>
+            <div id="modal-fields-spot" style="display:none;">
+                <div class="modal-input-group"><label class="modal-label">名稱</label><input type="text" id="spot-title" class="modal-input"></div>
+                <div class="modal-input-group"><label class="modal-label">Tabelog 評分 (選填)</label><input type="number" step="0.01" id="spot-score" class="modal-input" placeholder="例：3.58"></div>
+                <div class="modal-input-group"><label class="modal-label">備註</label><textarea id="spot-desc" class="modal-input" rows="3"></textarea></div>
+                <div class="modal-input-group"><label class="modal-label">Google Map</label><input type="text" id="spot-link" class="modal-input" placeholder="https://..."></div>
             </div>
 
             <div id="modal-fields-transit" style="display:none;">
                 <div class="modal-input-group">
                     <label class="modal-label">交通方式</label>
-                    <select id="modal-transit-icon" class="modal-select">
-                        <option value="fa-car">🚗 開車</option>
-                        <option value="fa-train">🚅 電車/地鐵</option>
-                        <option value="fa-walking">🚶 步行</option>
-                        <option value="fa-bus">🚌 巴士</option>
-                        <option value="fa-ship">🚢 船/渡輪</option>
-                        <option value="fa-plane">✈️ 飛機</option>
+                    <select id="transit-icon" class="modal-select">
+                        <option value="fa-car">🚗 開車</option><option value="fa-train">🚅 電車</option>
+                        <option value="fa-walking">🚶 步行</option><option value="fa-bus">🚌 巴士</option>
                     </select>
                 </div>
-                <div class="modal-input-group">
-                    <label class="modal-label">交通時間 / 說明</label>
-                    <input type="text" id="modal-transit-text" class="modal-input" placeholder="例：車程 40 分鐘">
-                </div>
+                <div class="modal-input-group"><label class="modal-label">時間/說明</label><input type="text" id="transit-text" class="modal-input" placeholder="例：30 分鐘"></div>
+            </div>
+
+            <div id="modal-fields-shopping" style="display:none;">
+                <div class="modal-input-group"><label class="modal-label">商品名稱</label><input type="text" id="shop-modal-name" class="modal-input"></div>
+                <div class="modal-input-group"><label class="modal-label">備註</label><input type="text" id="shop-modal-note" class="modal-input"></div>
+                <div class="modal-input-group"><label class="modal-label">連結/地圖</label><input type="text" id="shop-modal-link" class="modal-input"></div>
+            </div>
+
+            <div id="modal-fields-expense" style="display:none;">
+                <div class="modal-input-group"><label class="modal-label">項目名稱</label><input type="text" id="exp-modal-name" class="modal-input"></div>
+                <div class="modal-input-group"><label class="modal-label">日幣金額</label><input type="number" id="exp-modal-amt" class="modal-input"></div>
             </div>
 
             <div class="modal-btns">
                 <button class="btn-modal-cancel" onclick="closeModal()">取消</button>
-                <button class="btn-modal-save" onclick="saveModal()">儲存</button>
+                <button class="btn-modal-save" onclick="saveModalData()">儲存</button>
             </div>
         </div>
     </div>
@@ -354,7 +362,7 @@
     </nav>
 
     <script>
-        // --- Init Data ---
+        // --- Init Data (Corrected & Full) ---
         const INITIAL_ITINERARY = [
             {
                 id: 'day1', title: 'Day 1 | 熊本', icon: 'fa-chess-rook',
@@ -363,7 +371,7 @@
                     {type:'transit', icon:'fa-walking', text:'步行 5 分鐘'},
                     {type:'spot', title:'櫻之馬場 城彩苑', desc:'江戶風情商店街，推薦「海膽可樂餅」。', link:'https://www.google.com/maps/search/?api=1&query=櫻之馬場+城彩苑'},
                     {type:'transit', icon:'fa-train', text:'市電 15 分鐘'},
-                    {type:'spot', title:'勝烈亭 新市街本店', desc:'鹿兒島黑豚炸豬排，熊本必吃。', link:'https://www.google.com/maps/search/?api=1&query=勝烈亭+新市街本店'},
+                    {type:'spot', title:'勝烈亭 新市街本店', score:'3.78', desc:'鹿兒島黑豚炸豬排，熊本必吃。', link:'https://www.google.com/maps/search/?api=1&query=勝烈亭+新市街本店'},
                     {type:'spot', title:'Check-in', desc:'前往 White Crystal 辦理入住。', link:''}
                 ]
             },
@@ -382,12 +390,12 @@
             {
                 id: 'day3', title: 'Day 3 | 太宰府與由布院', icon: 'fa-torii-gate',
                 items: [
-                    {type:'spot', title:'一蘭拉麵 太宰府參道店', desc:'全球唯一五角碗合格拉麵。', link:'https://www.google.com/maps/search/?api=1&query=一蘭拉麵+太宰府參道店'},
+                    {type:'spot', title:'一蘭拉麵 太宰府參道店', score:'3.08', desc:'全球唯一五角碗合格拉麵。', link:'https://www.google.com/maps/search/?api=1&query=一蘭拉麵+太宰府參道店'},
                     {type:'spot', title:'太宰府天滿宮', desc:'參拜學問之神，必吃梅枝餅。', link:'https://www.google.com/maps/search/?api=1&query=太宰府天滿宮'},
                     {type:'transit', icon:'fa-car', text:'車程 1.5 小時'},
                     {type:'spot', title:'由布院溫泉', desc:'漫步湯之坪街道，欣賞金鱗湖美景。', link:'https://www.google.com/maps/search/?api=1&query=由布院溫泉'},
                     {type:'transit', icon:'fa-car', text:'車程 1 小時 40 分'},
-                    {type:'spot', title:'皿倉山纜車', desc:'新日本三大夜景，注意末班車時間。', link:'usercontent.com/maps.google.com/53'}
+                    {type:'spot', title:'皿倉山纜車 (新日本三大夜景)', desc:'搭乘纜車上山，將北九州繁華燈火盡收眼底。*請注意末班纜車時間', link:'usercontent.com/maps.google.com/53'}
                 ]
             },
             {
@@ -395,9 +403,9 @@
                 items: [
                     {type:'spot', title:'辦理還車', desc:'前往 Nissan Rent-a-car 還車。', link:'https://www.google.com/maps/search/?api=1&query=Nissan+Rent-a-car'},
                     {type:'transit', icon:'fa-subway', text:'地鐵移動'},
-                    {type:'spot', title:'午餐：Shin-Shin', desc:'博多純情豚骨拉麵，濃郁不膩。', link:'https://www.google.com/maps/search/?api=1&query=博多純情拉麵+Shin-Shin'},
+                    {type:'spot', title:'午餐：Shin-Shin', score:'3.58', desc:'博多純情豚骨拉麵，濃郁不膩。', link:'https://www.google.com/maps/search/?api=1&query=博多純情拉麵+Shin-Shin'},
                     {type:'spot', title:'天神地下街 & PARCO', desc:'九州流行中心，好逛好買。', link:'https://www.google.com/maps/search/?api=1&query=天神地下街'},
-                    {type:'spot', title:'晚餐：牛腸鍋', desc:'推薦名店「大山」或「前田屋」。', link:'https://www.google.com/maps/search/?api=1&query=博多牛腸鍋'}
+                    {type:'spot', title:'晚餐：牛腸鍋', score:'3.53', desc:'推薦名店「大山」或「前田屋」。', link:'https://www.google.com/maps/search/?api=1&query=博多牛腸鍋'}
                 ]
             },
             {
@@ -410,39 +418,52 @@
             }
         ];
 
-        // --- Core Logic ---
-        const ITINERARY_KEY = 'travel_itinerary_2026_v2';
+        // --- Core Logic (Update V6) ---
+        const ITINERARY_KEY = 'trip_2026_itinerary_v6';
         let itineraryData = JSON.parse(localStorage.getItem(ITINERARY_KEY)) || INITIAL_ITINERARY;
-        let currentEdit = { d: null, i: null }; // Track what is being edited
+        
+        const SHOP_KEY = 'trip_2026_shop_v6';
+        let shopData = JSON.parse(localStorage.getItem(SHOP_KEY)) || [];
+        
+        const EXP_KEY = 'trip_2026_exp_v6';
+        let expenses = JSON.parse(localStorage.getItem(EXP_KEY)) || [];
+        
+        const CHECK_KEY = 'trip_2026_check_v6';
+        let checks = JSON.parse(localStorage.getItem(CHECK_KEY)) || [{text:"護照",checked:false}];
 
-        function saveItinerary() {
-            localStorage.setItem(ITINERARY_KEY, JSON.stringify(itineraryData));
-        }
+        let currentModalMode = ''; 
+        let editTarget = { d: null, i: null, isEdit: false };
 
+        // --- Render Itinerary ---
         function renderItinerary() {
             itineraryData.forEach((day, dayIdx) => {
                 const container = document.getElementById(day.id);
                 if (!container) return;
-
+                
                 let html = `
                     <div class="section-header-styled">
                         <i class="fas ${day.icon} section-header-icon"></i>
                         <div class="section-header-text">${day.title}</div>
                     </div>
-                    <div class="timeline">
-                `;
+                    <div class="timeline">`;
 
                 day.items.forEach((item, itemIdx) => {
+                    if(itemIdx > 0 && day.items[itemIdx-1].type === 'spot' && item.type === 'spot') {
+                        html += `<div class="traffic-warning" onclick="openModal('transit', ${dayIdx}, ${itemIdx})"><i class="fas fa-exclamation-circle"></i> 新增交通方式</div>`;
+                    }
+
                     if (item.type === 'spot') {
+                        let badgeHtml = item.score ? `<div class="tabelog-badge"><i class="fas fa-utensils"></i> tabelog ${item.score}</div>` : '';
                         html += `
                         <div class="timeline-item">
                             <div class="card">
                                 <div class="card-actions">
-                                    <div class="btn-icon-action" onclick="openEditModal(${dayIdx}, ${itemIdx})"><i class="fas fa-pen"></i></div>
+                                    <div class="btn-icon-action" onclick="openModal('spot', ${dayIdx}, ${itemIdx}, true)"><i class="fas fa-pen"></i></div>
                                     <div class="btn-icon-action delete" onclick="deleteItem(${dayIdx}, ${itemIdx})"><i class="fas fa-trash-alt"></i></div>
                                 </div>
                                 <div class="card-body">
                                     <div class="card-title">${item.title}</div>
+                                    ${badgeHtml}
                                     <div class="card-desc">${item.desc}</div>
                                     ${item.link ? `<a href="${item.link}" target="_blank" class="btn-map">導航</a>` : ''}
                                 </div>
@@ -456,115 +477,174 @@
                                 <span>${item.text}</span>
                             </div>
                             <div class="transit-actions">
-                                <i class="fas fa-pen" onclick="openEditModal(${dayIdx}, ${itemIdx})"></i>
-                                <i class="fas fa-trash-alt" style="color:#aaa" onclick="deleteItem(${dayIdx}, ${itemIdx})"></i>
+                                <i class="fas fa-pen" onclick="openModal('transit', ${dayIdx}, ${itemIdx}, true)"></i>
+                                <i class="fas fa-trash-alt" onclick="deleteItem(${dayIdx}, ${itemIdx})"></i>
                             </div>
                         </div>`;
                     }
                 });
 
-                html += `
-                    </div>
+                html += `</div>
                     <div class="add-buttons-container">
-                        <div class="btn-add-trip" onclick="addItem(${dayIdx}, 'spot')"><i class="fas fa-plus"></i> 景點</div>
-                        <div class="btn-add-trip" onclick="addItem(${dayIdx}, 'transit')"><i class="fas fa-plus"></i> 交通</div>
-                    </div>
-                `;
+                        <div class="btn-add-trip" onclick="openModal('spot', ${dayIdx})"><i class="fas fa-plus"></i> 新增景點</div>
+                    </div>`;
                 container.innerHTML = html;
             });
+            localStorage.setItem(ITINERARY_KEY, JSON.stringify(itineraryData));
         }
 
-        // --- Modal & Edit Logic ---
-        function openEditModal(d, i) {
-            currentEdit = { d, i };
-            const item = itineraryData[d].items[i];
-            const modal = document.getElementById('edit-modal');
+        function deleteItem(d, i) { if(confirm("刪除此項目？")) { itineraryData[d].items.splice(i, 1); renderItinerary(); } }
+
+        // --- Render Shopping ---
+        function renderShop() {
+            const con = document.getElementById('shopping-list-container'); con.innerHTML = '';
+            shopData.forEach((item, idx) => {
+                let noteHtml = item.note ? `<div class="shop-note"><i class="fas fa-sticky-note"></i> ${item.note}</div>` : '';
+                let linkHtml = item.link ? `<a href="${item.link}" target="_blank" class="btn-link"><i class="fas fa-map-marker-alt"></i></a>` : '';
+                con.innerHTML += `
+                <div class="shop-item ${item.checked?'checked':''}">
+                    <div style="flex:1"><div class="shop-name">${item.name}</div>${noteHtml}</div>
+                    <div class="shop-actions">${linkHtml}<i class="fas fa-check-circle btn-check" onclick="toggleShop(${idx})"></i><i class="fas fa-trash-alt btn-trash" onclick="delShop(${idx})"></i></div>
+                </div>`;
+            });
+            localStorage.setItem(SHOP_KEY, JSON.stringify(shopData));
+        }
+        function toggleShop(i){ shopData[i].checked=!shopData[i].checked; renderShop(); }
+        function delShop(i){ if(confirm('刪除?')){ shopData.splice(i,1); renderShop(); } }
+
+        // --- Render Expense ---
+        let rate = 0.22;
+        function renderExp() {
+            const list=document.getElementById('expense-list'); list.innerHTML=''; let total=0;
+            expenses.forEach((e,i)=>{
+                let twd=Math.round(e.amt*rate); total+=twd;
+                list.innerHTML+=`<div class="list-item"><div><div style="font-weight:bold">${e.name}</div><div style="font-size:0.8rem;color:#666">¥${e.amt}</div></div><div style="display:flex;align-items:center;gap:10px"><div style="font-weight:bold;color:var(--accent-pink)">NT$${twd}</div><i class="fas fa-trash-alt" style="color:#aaa;cursor:pointer" onclick="delExp(${i})"></i></div></div>`;
+            });
+            document.getElementById('total-twd').innerText=total.toLocaleString();
+            localStorage.setItem(EXP_KEY, JSON.stringify(expenses));
+        }
+        function delExp(i){ if(confirm('刪除?')){ expenses.splice(i,1); renderExp(); } }
+
+        // --- Modal Logic ---
+        function openModal(mode, d = null, i = null, isEdit = false) {
+            currentModalMode = mode;
+            editTarget = { d, i, isEdit }; 
             
-            if (item.type === 'spot') {
-                document.getElementById('modal-header').innerText = "編輯景點";
-                document.getElementById('modal-fields-spot').style.display = 'block';
-                document.getElementById('modal-fields-transit').style.display = 'none';
-                document.getElementById('modal-spot-title').value = item.title;
-                document.getElementById('modal-spot-desc').value = item.desc;
-                document.getElementById('modal-spot-link').value = item.link;
-            } else {
-                document.getElementById('modal-header').innerText = "編輯交通";
-                document.getElementById('modal-fields-spot').style.display = 'none';
-                document.getElementById('modal-fields-transit').style.display = 'block';
-                document.getElementById('modal-transit-icon').value = item.icon;
-                document.getElementById('modal-transit-text').value = item.text;
+            ['spot', 'transit', 'shopping', 'expense'].forEach(f => document.getElementById(`modal-fields-${f}`).style.display = 'none');
+            document.getElementById(`modal-fields-${mode}`).style.display = 'block';
+            
+            const titleMap = { 'spot':'編輯/新增景點', 'transit':'編輯/新增交通', 'shopping':'新增購買清單', 'expense':'新增支出' };
+            document.getElementById('uni-modal-title').innerText = titleMap[mode];
+
+            if (mode === 'spot') {
+                if(isEdit) {
+                    const item = itineraryData[d].items[i];
+                    document.getElementById('spot-title').value = item.title;
+                    document.getElementById('spot-score').value = item.score || '';
+                    document.getElementById('spot-desc').value = item.desc;
+                    document.getElementById('spot-link').value = item.link;
+                } else {
+                    document.getElementById('spot-title').value = ''; 
+                    document.getElementById('spot-score').value = '';
+                    document.getElementById('spot-desc').value = ''; 
+                    document.getElementById('spot-link').value = '';
+                }
+            } else if (mode === 'transit') {
+                if(isEdit) {
+                    const item = itineraryData[d].items[i];
+                    document.getElementById('transit-icon').value = item.icon;
+                    document.getElementById('transit-text').value = item.text;
+                } else {
+                    document.getElementById('transit-icon').value = 'fa-car';
+                    document.getElementById('transit-text').value = '';
+                }
+            } else if (mode === 'shopping') {
+                document.getElementById('shop-modal-name').value = '';
+                document.getElementById('shop-modal-note').value = '';
+                document.getElementById('shop-modal-link').value = '';
+            } else if (mode === 'expense') {
+                document.getElementById('exp-modal-name').value = '';
+                document.getElementById('exp-modal-amt').value = '';
             }
-            modal.classList.add('show');
+
+            document.getElementById('universal-modal').classList.add('show');
         }
 
-        function closeModal() {
-            document.getElementById('edit-modal').classList.remove('show');
-        }
+        function closeModal() { document.getElementById('universal-modal').classList.remove('show'); }
 
-        function saveModal() {
-            const d = currentEdit.d;
-            const i = currentEdit.i;
-            const item = itineraryData[d].items[i];
+        function saveModalData() {
+            const { d, i, isEdit } = editTarget;
 
-            if (item.type === 'spot') {
-                item.title = document.getElementById('modal-spot-title').value;
-                item.desc = document.getElementById('modal-spot-desc').value;
-                item.link = document.getElementById('modal-spot-link').value;
-            } else {
-                item.icon = document.getElementById('modal-transit-icon').value;
-                item.text = document.getElementById('modal-transit-text').value;
+            if (currentModalMode === 'spot') {
+                const newItem = {
+                    type: 'spot',
+                    title: document.getElementById('spot-title').value,
+                    score: document.getElementById('spot-score').value,
+                    desc: document.getElementById('spot-desc').value,
+                    link: document.getElementById('spot-link').value
+                };
+                if (isEdit) itineraryData[d].items[i] = newItem;
+                else itineraryData[d].items.push(newItem);
+                renderItinerary();
+
+            } else if (currentModalMode === 'transit') {
+                const newItem = {
+                    type: 'transit',
+                    icon: document.getElementById('transit-icon').value,
+                    text: document.getElementById('transit-text').value
+                };
+                if (isEdit) itineraryData[d].items[i] = newItem;
+                else {
+                    if (i !== null && i !== undefined) itineraryData[d].items.splice(i, 0, newItem);
+                    else itineraryData[d].items.push(newItem);
+                }
+                renderItinerary();
+
+            } else if (currentModalMode === 'shopping') {
+                const name = document.getElementById('shop-modal-name').value;
+                if(name) {
+                    shopData.push({
+                        name: name,
+                        note: document.getElementById('shop-modal-note').value,
+                        link: document.getElementById('shop-modal-link').value,
+                        checked: false
+                    });
+                    renderShop();
+                }
+
+            } else if (currentModalMode === 'expense') {
+                const name = document.getElementById('exp-modal-name').value;
+                const amt = document.getElementById('exp-modal-amt').value;
+                if(name && amt) {
+                    expenses.unshift({name, amt});
+                    renderExp();
+                }
             }
-            saveItinerary();
-            renderItinerary();
             closeModal();
         }
 
-        function deleteItem(d, i) {
-            if(confirm("確定刪除此項目？")) { 
-                itineraryData[d].items.splice(i, 1); 
-                saveItinerary(); 
-                renderItinerary(); 
-            }
-        }
-
-        function addItem(d, type) {
-            // Push empty item then open modal for it
-            if(type === 'spot') {
-                itineraryData[d].items.push({type:'spot', title:'新景點', desc:'', link:''});
-            } else {
-                itineraryData[d].items.push({type:'transit', icon:'fa-car', text:'車程 10 分鐘'});
-            }
-            // Save and render first to create the DOM element
-            saveItinerary();
-            renderItinerary();
-            // Then open modal for the newly created item (last index)
-            openEditModal(d, itineraryData[d].items.length - 1);
-        }
-
-        // --- Other Logic (Shop, Exp, Check) ---
+        // --- Other Utils ---
         function createFallingEffect() { const c=document.getElementById('falling-container'); for(let i=0;i<30;i++){ const e=document.createElement('i'); e.className='falling-item fas '+(Math.random()>.5?'fa-snowflake snowflake':'fa-leaf sakura'); e.style.left=Math.random()*100+'%'; e.style.animationDuration=(Math.random()*5+5)+'s'; e.style.animationDelay=(Math.random()*-10)+'s'; e.style.fontSize=(Math.random()*10+10)+'px'; c.appendChild(e); } }
         function switchTab(id, el) { document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active')); el.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
         function startJourney() { switchTab('flight', document.querySelectorAll('.nav-item')[1]); }
-
-        const SHOP_KEY='travel_shop_2026_v3', EXP_KEY='travel_exp_2026_final', CHECK_KEY='travel_check_2026_final';
-        let shopData=JSON.parse(localStorage.getItem(SHOP_KEY))||[], expenses=JSON.parse(localStorage.getItem(EXP_KEY))||[], checks=JSON.parse(localStorage.getItem(CHECK_KEY))||[{text:"護照",checked:false},{text:"日幣",checked:false}];
-        let rate=0.22;
-
-        function renderShop(){ const c=document.getElementById('shopping-list-container'); c.innerHTML=''; shopData.forEach((i,x)=>{ c.innerHTML+=`<div class="shop-item ${i.checked?'checked':''}"><div style="flex:1"><div class="shop-name">${i.name}</div>${i.note?`<div class="shop-note"><i class="fas fa-sticky-note"></i> ${i.note}</div>`:''}</div><div class="shop-actions">${i.link?`<a href="${i.link}" target="_blank" class="btn-link"><i class="fas fa-map-marker-alt"></i></a>`:''}<i class="fas fa-check-circle btn-check" onclick="toggleShop(${x})"></i><i class="fas fa-trash-alt btn-trash" onclick="delShop(${x})"></i></div></div>`; }); localStorage.setItem(SHOP_KEY,JSON.stringify(shopData)); }
-        function addShopItem(){ const n=document.getElementById('shop-name').value, nt=document.getElementById('shop-note').value, l=document.getElementById('shop-link').value; if(n){ shopData.push({name:n,note:nt,link:l,checked:false}); document.getElementById('shop-name').value=''; document.getElementById('shop-note').value=''; document.getElementById('shop-link').value=''; renderShop(); } }
-        function toggleShop(i){ shopData[i].checked=!shopData[i].checked; renderShop(); } function delShop(i){ if(confirm('刪除?')){ shopData.splice(i,1); renderShop(); } }
-
-        function renderExp(){ const l=document.getElementById('expense-list'); l.innerHTML=''; let t=0; expenses.forEach((e,i)=>{ let v=Math.round(e.amt*rate); t+=v; l.innerHTML+=`<div class="list-item"><div><div style="font-weight:bold">${e.name}</div><div style="font-size:0.8rem;color:#666">¥${e.amt}</div></div><div style="display:flex;align-items:center;gap:10px"><div style="font-weight:bold;color:var(--accent-pink)">NT$${v}</div><i class="fas fa-trash-alt" style="color:#aaa" onclick="delExp(${i})"></i></div></div>`; }); document.getElementById('total-twd').innerText=t.toLocaleString(); localStorage.setItem(EXP_KEY,JSON.stringify(expenses)); }
-        function addExpense(){ const n=document.getElementById('exp-name').value, a=document.getElementById('exp-amt').value; if(n&&a){ expenses.unshift({name:n,amt:a}); document.getElementById('exp-name').value=''; document.getElementById('exp-amt').value=''; renderExp(); } }
-        function delExp(i){ if(confirm('刪除?')){ expenses.splice(i,1); renderExp(); } }
-
+        
         function renderCheck(){ const c=document.getElementById('checklist-container'); c.innerHTML=''; checks.forEach((k,i)=>{ c.innerHTML+=`<div class="list-item" style="${k.checked?'opacity:0.5':''}"><div style="flex:1;display:flex;align-items:center;cursor:pointer" onclick="toggleCheck(${i})"><i class="fas ${k.checked?'fa-check-circle':'fa-circle'}" style="margin-right:10px;color:var(--accent-pink)"></i><span style="${k.checked?'text-decoration:line-through':''}">${k.text}</span></div><i class="fas fa-trash-alt" style="color:#aaa" onclick="delCheck(${i})"></i></div>`; }); localStorage.setItem(CHECK_KEY,JSON.stringify(checks)); }
         function addChecklistItem(){ const v=document.getElementById('check-new').value; if(v){ checks.push({text:v,checked:false}); document.getElementById('check-new').value=''; renderCheck(); } }
         function toggleCheck(i){ checks[i].checked=!checks[i].checked; renderCheck(); } function delCheck(i){ if(confirm('刪除?')){ checks.splice(i,1); renderCheck(); } }
 
         document.addEventListener('DOMContentLoaded', () => {
-            createFallingEffect(); renderItinerary(); renderShop(); renderExp(); renderCheck();
-            document.getElementById('exchange-rate').addEventListener('change', function(){ rate=this.value; renderExp(); });
+            try {
+                createFallingEffect();
+                renderItinerary();
+                renderShop();
+                renderExp();
+                renderCheck();
+                const rateInput = document.getElementById('exchange-rate');
+                if(rateInput) rateInput.addEventListener('change', function(){ rate=this.value; renderExp(); });
+            } catch(e) {
+                console.error("Init Error:", e);
+                alert("初始化失敗，請清除瀏覽器快取重試");
+            }
         });
     </script>
 </body>
